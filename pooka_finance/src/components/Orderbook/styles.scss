@@ -1,0 +1,137 @@
+.orderbook {
+    background: var(--bg-card);
+    border-radius: 0.75rem;
+    padding: 1.5rem;
+    border: 1px solid var(--border-subtle);
+    transition: all 0.3s ease;
+    height: 500px;
+    display: flex;
+    flex-direction: column;
+    
+    &:hover {
+      border-color: var(--accent-blue);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    }
+  }
+  
+  .orderbook-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    
+    h3 {
+      font-size: 1.1rem;
+      font-weight: 600;
+    }
+    
+    .spread {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+  }
+  
+  .orderbook-content {
+    flex: 1;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .orderbook-headers {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 0.5rem;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid var(--border-subtle);
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    font-weight: 600;
+    text-transform: uppercase;
+  }
+  
+  .orderbook-section {
+    flex: 1;
+    overflow-y: auto;
+    
+    &.asks {
+      display: flex;
+      flex-direction: column-reverse;
+    }
+  }
+  
+  .orderbook-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 0.5rem;
+    padding: 0.25rem 0;
+    font-size: 0.875rem;
+    position: relative;
+    
+    .price {
+      font-weight: 600;
+      
+      &.ask-price {
+        color: var(--danger-red);
+      }
+      
+      &.bid-price {
+        color: var(--success-green);
+      }
+    }
+    
+    .quantity, .total {
+      color: var(--text-secondary);
+    }
+  }
+  
+  .depth-bar {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    opacity: 0.1;
+    
+    &.ask-depth {
+      background: var(--danger-red);
+    }
+    
+    &.bid-depth {
+      background: var(--success-green);
+    }
+  }
+  
+  .current-price {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    padding: 1rem;
+    background: var(--bg-primary);
+    border: 1px solid var(--border-subtle);
+    border-radius: 0.5rem;
+    margin: 0.5rem 0;
+    
+    .price-label {
+      color: var(--text-muted);
+      font-size: 0.75rem;
+    }
+    
+    .price-value {
+      font-weight: 700;
+      font-size: 1.1rem;
+    }
+    
+    .price-change {
+      font-weight: 600;
+      font-size: 0.875rem;
+      
+      &.positive {
+        color: var(--success-green);
+      }
+      
+      &.negative {
+        color: var(--danger-red);
+      }
+    }
+  }
