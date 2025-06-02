@@ -1,33 +1,30 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import React from 'react';
-import Navbar from '../components/Navbar';
+import { Navbar } from '@/components/Navbar';
 import PerpetualSelector from '@/components/PerpsSelector';
-import OrderBook from '@/components/Orderbook';
+import { OrderbookComponent } from '@/components/Orderbook';
 import TradingChart from '../components/TradingChart';
 import TradingPanel from '../components/TradingPanel';
+ import TradingHeader from '@/components/TradingHeader';
+import { PriceTickerComponent } from '@/components/PriceTicker';
 import "./global.css"
 import "./styles.scss"
 const Index = () => {
   return (
-    <div className="trading-app">
+    <div className="tradingAppWrapper">
       <Navbar />
-      
-      <main className="trading-layout">
-        {/* Left Column */}
-        <div className="left-column">
-          <PerpetualSelector />
-          <OrderBook />
+      <div className="tradingLayoutWrapper">
+      <TradingHeader/>
+      <div className='MidComponentWrapper'>
+         <div className="OrderBookColumn">
+          <OrderbookComponent />
         </div>
-
-        {/* Center Column */}
-        <div className="center-column">
-          <TradingChart />
-        </div>
-
-        {/* Right Column */}
-        <div className="right-column">
+        <div className="OrderPlacingColumn">
           <TradingPanel />
         </div>
-      </main>
+      </div>
+      </div>
+      <PriceTickerComponent/>
     </div>
   );
 };

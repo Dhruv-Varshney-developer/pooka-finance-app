@@ -1,9 +1,14 @@
 "use client"
-import React from 'react';
-import "./styles.scss"
-import { ConnectButton } from '@rainbow-me/rainbowkit';
-const Navbar = () => {
 
+import type React from "react"
+import { useState } from "react"
+import "./styles.scss"
+import { ConnectButton } from "@rainbow-me/rainbowkit"
+
+export const Navbar=() => {
+  const [activeNav, setActiveNav] = useState("Dashboard")
+
+  const navItems = ["Dashboard", "Markets", "Portfolio", "Leaderboard"]
 
   return (
     <nav className="navbar">
@@ -16,21 +21,27 @@ const Navbar = () => {
           </div>
         </div>
 
+        {/* Center: Navigation */}
         <div className="navbar-nav">
-          <a href="#" className="nav-link active">Dashboard</a>
-          <a href="#" className="nav-link">Markets</a>
-          <a href="#" className="nav-link">Portfolio</a>
-          <a href="#" className="nav-link">Leaderboard</a>
+          {navItems.map((item) => (
+            <button
+              key={item}
+              className={`nav-link ${activeNav === item ? "active" : ""}`}
+              onClick={() => setActiveNav(item)}
+            >
+              {item}
+            </button>
+          ))}
         </div>
 
-       
+        {/* Right: Actions */}
         <div className="navbar-actions">
-         
-          <ConnectButton/>
+          <div className="navbar-actions">       
+            <ConnectButton/>
+            </div>
         </div>
       </div>
     </nav>
-  );
-};
+  )
+}
 
-export default Navbar;
