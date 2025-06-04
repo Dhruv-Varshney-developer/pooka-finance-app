@@ -1,0 +1,1 @@
+export const MARKET_SYMBOLS=["BTC/USD","ETH/USD"]

@@ -8,10 +8,7 @@ import { WagmiProvider } from 'wagmi';
 import { ReactNode } from 'react';
 import {
   mainnet,
-  polygon,
-  optimism,
-  arbitrum,
-  base,
+  sepolia
 } from 'wagmi/chains';
 import {
   QueryClientProvider,
@@ -22,7 +19,7 @@ import React from 'react';
 const config=getDefaultConfig({
     appName:"ChromiumHack",
     projectId:"fbb7dd672f032c12e043457e516544f4",
-    chains: [mainnet, polygon, optimism, arbitrum, base],
+    chains: [mainnet, sepolia],
     ssr:true
 })
 
