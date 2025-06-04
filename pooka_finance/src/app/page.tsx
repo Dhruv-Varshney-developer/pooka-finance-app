@@ -2,8 +2,7 @@
 import React from 'react';
 import { Navbar } from '@/components/Navbar';
 import PerpetualSelector from '@/components/PerpsSelector';
-import { OrderbookComponent } from '@/components/Orderbook';
-import TradingChart from '../components/TradingChart';
+import { TradingChart } from '@/components/TradingChart';
 import TradingPanel from '../components/TradingPanel';
  import TradingHeader from '@/components/TradingHeader';
 import { PriceTickerComponent } from '@/components/PriceTicker';
@@ -16,9 +15,7 @@ const Index = () => {
       <div className="tradingLayoutWrapper">
       <TradingHeader/>
       <div className='MidComponentWrapper'>
-         <div className="OrderBookColumn">
-          <OrderbookComponent />
-        </div>
+        <TradingChart />
         <div className="OrderPlacingColumn">
           <TradingPanel />
         </div>

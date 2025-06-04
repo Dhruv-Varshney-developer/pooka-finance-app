@@ -11,6 +11,7 @@
   "dependencies": {
     "@rainbow-me/rainbowkit": "^2.2.5",
     "@tanstack/react-query": "^5.79.0",
+    "lightweight-charts": "^5.0.7",
     "lucide-react": "^0.511.0",
     "next": "15.3.2",
     "react": "^19.0.0",
