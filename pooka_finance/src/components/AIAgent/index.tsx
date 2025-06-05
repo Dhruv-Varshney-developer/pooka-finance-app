@@ -17,7 +17,7 @@ interface AgentChatProps {
   isConnected?: boolean
 }
 
-const AgentChat: React.FC<AgentChatProps> = ({ onSendMessage, onClearChat, isConnected = true }) => {
+export const AgentChat: React.FC<AgentChatProps> = ({ onSendMessage, isConnected = true }) => {
   const [messages, setMessages] = useState<Message[]>([
     {
       id: "1",
@@ -29,7 +29,7 @@ const AgentChat: React.FC<AgentChatProps> = ({ onSendMessage, onClearChat, isCon
   ])
   const [inputMessage, setInputMessage] = useState("")
   const [isTyping, setIsTyping] = useState(false)
-  const [isChatMinimized, setIsChatMinimized] = useState(false)
+  //const [isChatMinimized, setIsChatMinimized] = useState(false)
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
 
@@ -78,17 +78,17 @@ const AgentChat: React.FC<AgentChatProps> = ({ onSendMessage, onClearChat, isCon
     }
   }
 
-  const handleClearChat = () => {
-    setMessages([
-      {
-        id: "1",
-        type: "agent",
-        content: "Chat cleared. How can I help you?",
-        timestamp: new Date(),
-      },
-    ])
-    onClearChat?.()
-  }
+  // const handleClearChat = () => {
+  //   setMessages([
+  //     {
+  //       id: "1",
+  //       type: "agent",
+  //       content: "Chat cleared. How can I help you?",
+  //       timestamp: new Date(),
+  //     },
+  //   ])
+  //   onClearChat?.()
+  // }
 
   const formatTime = (date: Date) => {
     return date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })
@@ -106,7 +106,7 @@ const AgentChat: React.FC<AgentChatProps> = ({ onSendMessage, onClearChat, isCon
             </span>
           </div>
         </div>
-        <div className="headerActions">
+        {/* <div className="headerActions">
           <button className="actionBtn" onClick={handleClearChat} title="Clear Chat">
             🗑️
           </button>
@@ -117,10 +117,10 @@ const AgentChat: React.FC<AgentChatProps> = ({ onSendMessage, onClearChat, isCon
           >
             {isChatMinimized ? "⬆️" : "⬇️"}
           </button>
-        </div>
+        </div> */}
       </div>
 
-      {!isChatMinimized && (
+      {
         <>
           <div className="chatMessages">
             {messages.map((message) => (
@@ -171,9 +171,9 @@ const AgentChat: React.FC<AgentChatProps> = ({ onSendMessage, onClearChat, isCon
             </div>
           </div>
         </>
-      )}
+      }
     </div>
   )
 }
 
-export default AgentChat
+

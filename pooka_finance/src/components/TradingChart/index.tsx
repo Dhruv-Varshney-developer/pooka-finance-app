@@ -30,7 +30,8 @@ export const TradingChart = () => {
             vertLines: { color: '#444' },
             horzLines: { color: '#444' },
         },
-        height:500,
+        height:400,
+        width:600,
         localization:{
           priceFormatter:myPriceFormatter
         }

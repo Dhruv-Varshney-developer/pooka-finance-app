@@ -6,6 +6,7 @@ import { TradingChart } from "@/components/TradingChart";
 import TradingPanel from "../components/TradingPanel";
 import TradingHeader from "@/components/TradingHeader";
 import { PriceTickerComponent } from "@/components/PriceTicker";
+import { AgentChat } from "../components/AIAgent";
 import "./global.css";
 import "./styles.scss";
 const Index = () => {
@@ -18,6 +19,7 @@ const Index = () => {
           <TradingChart />
           <div className="OrderPlacingColumn">
             <TradingPanel />
+            <AgentChat />
           </div>
         </div>
       </div>
