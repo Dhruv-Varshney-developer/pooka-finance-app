@@ -1,27 +1,31 @@
 "use client"
 
 import type React from "react"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import "./styles.scss"
 import { ConnectButton } from "@rainbow-me/rainbowkit"
-
+import { useWalletStore } from "@/store/walletStore";
+import { useAccount, useDisconnect } from "wagmi"
 export const Navbar=() => {
-  const [activeNav, setActiveNav] = useState("Dashboard")
+  const [activeNav, setActiveNav] = useState("Dashboard");
+  const {address, isConnected}=useAccount();
+  const { disconnect } = useDisconnect();
+  const navItems = ["Dashboard", "Markets", "Portfolio", "Leaderboard"];
 
-  const navItems = ["Dashboard", "Markets", "Portfolio", "Leaderboard"]
-
+  useEffect(() => {
+    useWalletStore.getState().setUserWalletAddress(
+      isConnected ? address : undefined
+    );
+  }, [address, isConnected]);
   return (
     <nav className="navbar">
       <div className="navbar-content">
-        {/* Left: Logo */}
         <div className="navbar-brand">
           <div className="logo">
             <div className="logo-icon"></div>
             <span className="logo-text">PookaFinance</span>
           </div>
         </div>
-
-        {/* Center: Navigation */}
         <div className="navbar-nav">
           {navItems.map((item) => (
             <button
@@ -34,10 +38,37 @@ export const Navbar=() => {
           ))}
         </div>
 
-        {/* Right: Actions */}
+
         <div className="navbar-actions">
           <div className="navbar-actions">       
-            <ConnectButton showBalance={false} chainStatus={"none"}/>
+          <ConnectButton.Custom>
+      {({
+        openConnectModal,
+        account,
+        authenticationStatus,
+        mounted
+      }) => {
+        const ready = mounted && authenticationStatus !== "loading";
+        return (
+          <button
+            className="connectWalletButton"
+            onClick={()=>{
+              if(account?.address){
+                useWalletStore.getState().setUserWalletAddress(undefined)
+                disconnect()
+              }else{
+                useWalletStore.getState().setUserWalletAddress(account?.address as string)
+                console.log("The address is",account?.address)
+                openConnectModal();
+              }
+            }}
+            disabled={!ready}
+          >
+            {account?.address ? account.displayName : "Connect Wallet"}
+          </button>
+        );
+      }}
+    </ConnectButton.Custom>
             </div>
         </div>
       </div>

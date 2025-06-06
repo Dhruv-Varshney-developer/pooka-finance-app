@@ -8,14 +8,14 @@ import { CONTRACT_ADDRESS_SEPOLIA } from "@/utils/constants";
 import { useEffect, useState } from "react";
 
 
-export const useOpenPosition=()=>{
+export const useClosePosition=()=>{
   const [query, setQuery]=useState<boolean>(false);
   const {address}=useAccount();
    const {
     writeContract,
     data:hash,
     error,
-    isPending,
+    isPending
    }=useWriteContract();
 
    const {isLoading:isConfirming}=useWaitForTransactionReceipt({
@@ -27,33 +27,25 @@ export const useOpenPosition=()=>{
 
    useEffect(()=>{
     if(hash && isConfirming){
-        alert(`Traxn sent successfully with hash:${hash}`)
+        alert(`Traxn sent successfully with hash:${hash} for closing user's Position`)
     }else if(error){
-        alert(`Unable to send the traxn:${error.message}`)
+        alert(`Unable to send the traxn to close User's Position:${error.message}`)
     }
    },[error, hash, isConfirming])
 
-   const openPosition=async (
-    symbol: string,
-    isLong: boolean,
-    collateralAmount: string,
-    leverage: string
+   const closeUserPosition=async (
+    symbol: string
    )=>{
-    console.log(symbol, isLong, collateralAmount, leverage)
     try{
     setQuery(true);
     writeContract({
             abi: POOKA_ABI as Abi,
             address:CONTRACT_ADDRESS_SEPOLIA,
-            functionName:"openPosition",
+            functionName:"closePosition",
             args:
             [
                 symbol,
-                parseEther(collateralAmount),
-                BigInt(leverage),
-                isLong
-            ],
-            value:parseEther(collateralAmount)
+            ]
     })
     }catch(err){
         setQuery(false);
@@ -62,8 +54,7 @@ export const useOpenPosition=()=>{
 }
 
    return {
-    openPosition,
-    isPending
+    closeUserPosition
    }
 
 }

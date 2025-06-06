@@ -11,19 +11,17 @@
 .tabContainer {
   display: flex;
   flex-direction: row;
-  justify-content:center;
+  justify-content:space-between;
   border-radius: 6px;
   padding: 2px;
   margin-bottom: 20px;
   gap: 15px;
 }
 
-.PositionTab {
+.PositionTab, .MarketTab {
   display: flex;
   justify-content: space-between;
   gap: 0.75rem;
-  margin-top: 1rem;
-  background-color: #f5f5f5;
   padding: 0.5rem;
   border-radius: 0.5rem;
   width: fit-content;
@@ -31,30 +29,39 @@
   button {
     flex: 1;
     padding: 0.5rem 1.25rem;
+   font-family: "Manrope";
     border: none;
     border-radius: 0.375rem;
     font-weight: 600;
     cursor: pointer;
-    background-color: #e0e0e0;
-    color: #333;
+    color: #555555;
+    background-color: #1c1c1c;
+    border: 1px solid #2a2a2a;
     transition: all 0.2s ease-in-out;
 
     &:hover {
       background-color: #d5d5d5;
     }
 
-    &.active {
-      background-color: #4caf50; // green for Long by default
-      color: white;
+    &.activeLong {
+      background-color: #7bf179; 
+      font-weight: 700;
     }
 
-    &.shortActive {
-      background-color: #f44336; // red for Short
-      color: white;
+    &.activeShort {
+      background-color: #f44336;
     }
   }
 }
 
+.MarketTab{
+  
+  .activeLong{
+    font-size: 18px;
+    font-weight: 800;
+    font-family: "Manrope";
+  }
+}
 
 .tab {
   display: flex;
@@ -64,7 +71,7 @@
   max-width: 48%;
   border: none;
   color: #888888;
-  padding: 12px 16px;
+  padding: 8px 20px;
   border-radius: 12px;
   cursor: pointer;
   font-size: 14px;
@@ -75,6 +82,10 @@
 .activeTab {
   background-color: #4ade80;
   color: #000000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
 }
 
 .tab:hover:not(.activeTab) {

@@ -11,7 +11,8 @@
     display: flex;
     flex-direction: column;
     padding: 1rem;
-    max-height: 70%;
+    max-height: 86%;
+    overflow: auto;
 
     .MidComponentWrapper{
       display: flex;
@@ -37,4 +38,8 @@
       }
     }
   }
+}
+
+.tradingLayoutWrapper::-webkit-scrollbar {
+  display: none;
 }

@@ -1,16 +1,16 @@
 "use client"
 
 import type React from "react"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import "./styles.scss"
 import { useBalance } from "wagmi"
 import { useWalletStore } from "@/store/walletStore";
 import { useShallow } from 'zustand/react/shallow'
 import { ConnectButton } from "@rainbow-me/rainbowkit"
-import { useOpenPosition } from "@/hooks/useOpenPosition"
 import { usePerpStore } from "@/store/PerpStore"
+import { Loader2 } from "lucide-react"
+import { useCreateDeposit } from "@/hooks/useCreateDeposit"
 const OrderComponent: React.FC = () => {
-  const [activeTab, setActiveTab] = useState<"Market">("Market");
   const [positionType, setPositionType]=useState<"Long" | "Short">("Long");
   const {
     address
@@ -19,54 +19,63 @@ const OrderComponent: React.FC = () => {
   })))
   const {
     selectedPerp,
-    leverage
   }=usePerpStore(useShallow((state)=>({
     selectedPerp:state.selectedPerp,
     leverage:state.leverage
   })))
 
-  const {data, isLoading}=useBalance({
+  const {data, isLoading:isBalanceLoading}=useBalance({
     address:address as `0x${string}`
   })
+
+  useEffect(()=>{
+    console.log("The address of the user",address)
+  },[address, selectedPerp])
 
   const [collateralAmount, setCollateralAmount] = useState<string>("0")
   const [leverageIndex, setLeverageIndex] = useState<number>(0);
 
-  const leverageOptions = [1,2,3,4,5,6,7,8,9,10,15,20]
+  const leverageOptions = [1,2,3,4,5,10,15,20]
 
+  // const {
+  //   openPosition,
+  //   isPending
+  // }=useOpenPosition();
   const {
-    openPosition
-  }=useOpenPosition();
+    createDeposit,
+    isLoading
+  }=useCreateDeposit();
 
-  const handleOpenPosition=()=>{
-    const isLong=positionType==="Long";
+  const handleCreateDeposit=()=>{
+    // const isLong=positionType==="Long";
     try{
-      openPosition(
-        selectedPerp,
-        isLong,
+      createDeposit(
         collateralAmount,
-        leverage,
       )
     }catch(err){
       console.log("Error occured",err)
     }
   }
 
+  console.log("THe address is",address)
+
   return (
     <div className="orderComponent">
       <div className="tabContainer">
-        <button className={`tab ${activeTab === "Market" ? "activeTab" : ""}`} onClick={() => setActiveTab("Market")}>
+        <div  className="MarketTab">
+        <button className="activeLong">
           Market
         </button>
+        </div>
         <div className="PositionTab">
           <button
-         className={positionType === "Long" ? "active" : ""}
+         className={positionType === "Long" ? "activeLong" : ""}
          onClick={() => setPositionType("Long")}
          >
          Long
          </button>
          <button
-         className={positionType === "Short" ? "shortActive" : ""}
+         className={positionType === "Short" ? "activeShort" : ""}
           onClick={() => setPositionType("Short")}
           >
          Short
@@ -77,7 +86,7 @@ const OrderComponent: React.FC = () => {
       <div className="orderForm">
         <div className="formRow">
           <label className="formLabel">You Pay</label>
-          {!isLoading ?<div className="availableBalance">Your Balance : {data?.symbol} {(Number(data?.value)/(10**Number(data?.decimals))).toFixed(4)}</div> : "Fetching Balance"}
+          {!isBalanceLoading ?<div className="availableBalance">Your Balance : {data?.symbol} {(Number(data?.value)/(10**Number(data?.decimals))).toFixed(4)}</div> : "Fetching Balance"}
         </div>
 
         <div className="inputContainer">
@@ -121,7 +130,7 @@ const OrderComponent: React.FC = () => {
                 </span>
               ))}
             </div>
-            <div className="selectedLeverage">{leverageOptions[leverageIndex]}x</div>
+        
           </div>
         </div>
 
@@ -144,25 +153,24 @@ const OrderComponent: React.FC = () => {
           </div>
         </div>
         {
-  address!==undefined ? (
-    <button className="connectWalletButton" onClick={handleOpenPosition}>
-      Place Order
-    </button>
+  address !== undefined ? (
+    !isLoading ? (
+      <button className="connectWalletButton" onClick={handleCreateDeposit}>
+        Deposit
+      </button>
+    ) : (
+      <Loader2 />
+    )
   ) : (
     <ConnectButton.Custom>
-      {({
-        openConnectModal,
-        account,
-        authenticationStatus,
-        mounted,
-      }) => {
+      {({ openConnectModal, account, authenticationStatus, mounted }) => {
         const ready = mounted && authenticationStatus !== "loading";
         return (
           <button
             className="connectWalletButton"
-            onClick={()=>{
+            onClick={() => {
               openConnectModal();
-              useWalletStore.getState().setUserWalletAddress(account?.address as string)
+              useWalletStore.getState().setUserWalletAddress(account?.address as string);
             }}
             disabled={!ready}
           >
