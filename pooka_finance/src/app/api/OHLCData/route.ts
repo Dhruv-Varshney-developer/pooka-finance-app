@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import axios from "axios";
+import dotenv from "dotenv";
+dotenv.config()
 
 interface ApiData{
     v:number,
@@ -21,7 +23,7 @@ export async function GET(request:NextRequest) {
      const DATE_NOW="2024-08-09";
      const BASE_URL="https://api.polygon.io/v2/aggs/ticker";
      const DATE_TO="2025-06-05";
-     const API_KEY="8jpneHgFEcUngQpnnWm3C7SF5DBARCup";
+     const API_KEY=process.env.API_KEY;
      const CURRENCY_TICKER:"X:ETHUSD" | "X:BTCUSD"="X:BTCUSD";
      const PARTS:"day" | "month" | "week" | "hour"="day";
 
