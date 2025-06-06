@@ -4,7 +4,8 @@
 import type React from "react"
 import { useState } from "react"
 import "./styles.scss"
-import PerpetualSelector from "../PerpsSelector"
+import { MARKET_SYMBOLS } from "@/utils/constants"
+
 interface TradingHeaderProps {
   symbol?: string
   baseAsset?: string

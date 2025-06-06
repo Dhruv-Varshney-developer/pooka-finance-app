@@ -1,0 +1,168 @@
+@import "../../app/mixin.scss";
+
+.positionsComponent {
+    background-color: #1a1a1a;
+    border-radius: 12px;
+    border: 1px solid #2a2a2a;
+    color: #ffffff;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    width: 100%;
+    min-height: 200px;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .tabsContainer {
+    border-bottom: 1px solid #2a2a2a;
+    padding: 0 20px;
+  }
+  
+  .tabsList {
+    display: flex;
+    gap: 0;
+    align-items: center;
+  }
+  
+  .tabButton {
+    background: none;
+    border: none;
+    color: #888888;
+    padding: 16px 20px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    position: relative;
+    border-bottom: 2px solid transparent;
+  }
+  
+  .tabButton:hover {
+    color: #cccccc;
+  }
+  
+  .tabButton.active {
+    color: #ffffff;
+    border-bottom-color: #7bf179;
+  }
+  
+  .tabButton.active::after {
+    content: "";
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background-color: #7bf179;
+  }
+  
+  .tabContent {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+    min-height: 120px;
+  }
+  
+  .emptyState {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+  }
+  
+  .emptyStateText {
+    color: #888888;
+    font-size: 14px;
+    font-weight: 500;
+    text-align: center;
+  }
+  
+  /* Responsive design */
+  @media (max-width: 768px) {
+    .positionsComponent {
+      border-radius: 8px;
+      min-height: 160px;
+    }
+  
+    .tabsContainer {
+      padding: 0 16px;
+    }
+  
+    .tabsList {
+      overflow-x: auto;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+  
+    .tabsList::-webkit-scrollbar {
+      display: none;
+    }
+  
+    .tabButton {
+      padding: 14px 16px;
+      font-size: 13px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+  
+    .tabContent {
+      padding: 30px 16px;
+      min-height: 100px;
+    }
+  
+    .emptyStateText {
+      font-size: 13px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .tabButton {
+      padding: 12px 14px;
+      font-size: 12px;
+    }
+  
+    .tabContent {
+      padding: 24px 12px;
+      min-height: 80px;
+    }
+  
+    .emptyStateText {
+      font-size: 12px;
+    }
+  }
+  
+  /* Hover effects */
+  .positionsComponent:hover {
+    border-color: #3a3a3a;
+    transition: border-color 0.3s ease;
+  }
+  
+  /* Focus states for accessibility */
+  .tabButton:focus {
+    outline: none;
+    background-color: rgba(123, 241, 121, 0.1);
+  }
+  
+  .tabButton:focus-visible {
+    outline: 2px solid #7bf179;
+    outline-offset: -2px;
+  }
+  
+  /* Animation for tab switching */
+  .tabContent {
+    animation: fadeIn 0.2s ease-in-out;
+  }
+  
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(4px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  

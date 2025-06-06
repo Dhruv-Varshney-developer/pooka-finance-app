@@ -9,6 +9,7 @@ import { PriceTickerComponent } from "@/components/PriceTicker";
 import { AgentChat } from "../components/AIAgent";
 import "./global.css";
 import "./styles.scss";
+import { PositionsComponent } from "@/components/PositionsComp";
 const Index = () => {
   return (
     <div className="tradingAppWrapper">
@@ -19,9 +20,10 @@ const Index = () => {
           <TradingChart />
           <div className="OrderPlacingColumn">
             <TradingPanel />
-            <AgentChat />
+            {/* <AgentChat /> */}
           </div>
         </div>
+        <PositionsComponent/>
       </div>
       <PriceTickerComponent />
     </div>

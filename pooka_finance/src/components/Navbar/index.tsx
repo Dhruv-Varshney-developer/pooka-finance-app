@@ -37,7 +37,7 @@ export const Navbar=() => {
         {/* Right: Actions */}
         <div className="navbar-actions">
           <div className="navbar-actions">       
-            <ConnectButton/>
+            <ConnectButton showBalance={false} chainStatus={"none"}/>
             </div>
         </div>
       </div>
