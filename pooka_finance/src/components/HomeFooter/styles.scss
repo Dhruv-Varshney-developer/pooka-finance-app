@@ -1,26 +1,29 @@
+@import "../../app/mixin.scss";
+
 .footer {
     background-color: #111111;
     color: #ffffff;
-    padding: 4rem 2rem 2rem;
+    padding: 40px 20px;
     width: 100%;
     border-top: 1px solid #222222;
+    .footerContainer {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .footerContent {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      margin-bottom: 2rem;
+    }
   }
   
-  .footerContainer {
-    max-width: 1200px;
-    margin: 0 auto;
-  }
-  
-  .footerContent {
-    display: grid;
-    grid-template-columns: 1fr 2fr;
-    gap: 4rem;
-    margin-bottom: 2rem;
-  }
+ 
   
   .footerSection {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    justify-content: center;
   }
   
   .footerLogo {
@@ -67,22 +70,22 @@
   }
   
   .footerLinks {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    gap: 2rem;
-  }
-  
-  .footerColumn {
     display: flex;
-    flex-direction: column;
-  }
-  
-  .footerColumnTitle {
-    font-weight: 700;
-    margin-bottom: 1rem;
-    color: #ffffff;
-  }
-  
+    flex-direction: row;
+    justify-content: space-around;
+    gap: 40px;
+    .footerColumn {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      padding: 12px;
+      .footerColumnTitle {
+        font-weight: 700;
+        margin-bottom: 1rem;
+        font-size: 18px;
+        color: #ffffff;
+      }
+
   .footerLink {
     display: block;
     color: #cccccc;
@@ -94,6 +97,13 @@
   .footerLink:hover {
     color: #7bf179;
   }
+    }
+  }
+  
+ 
+  
+ 
+  
   
   /* Responsive Design */
   @media (max-width: 768px) {

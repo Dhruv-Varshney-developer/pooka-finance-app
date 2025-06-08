@@ -4,7 +4,8 @@ import type React from "react"
 
 import { useState, useEffect } from "react"
 import "./styles.scss"
-
+import { BTC_TOKEN, ETH_TOKEN, SOL_TOKEN, DOGE_TOKEN } from "@/utils/constants"
+import Image from "next/image"
 interface CryptoToken {
   id: string
   name: string
@@ -20,7 +21,7 @@ export const CryptoTicker: React.FC = () => {
       id: "bitcoin",
       name: "Bitcoin",
       symbol: "BTC",
-      icon: "₿",
+      icon: BTC_TOKEN,
       price: 104376.26,
       change24h: -0.36,
     },
@@ -28,7 +29,7 @@ export const CryptoTicker: React.FC = () => {
       id: "ethereum",
       name: "Ethereum",
       symbol: "ETH",
-      icon: "Ξ",
+      icon: ETH_TOKEN,
       price: 3245.18,
       change24h: 1.24,
     },
@@ -36,7 +37,7 @@ export const CryptoTicker: React.FC = () => {
       id: "solana",
       name: "Solana",
       symbol: "SOL",
-      icon: "◎",
+      icon: SOL_TOKEN,
       price: 187.92,
       change24h: 3.56,
     },
@@ -44,38 +45,18 @@ export const CryptoTicker: React.FC = () => {
       id: "dogecoin",
       name: "Dogecoin",
       symbol: "DOGE",
-      icon: "Ð",
+      icon: DOGE_TOKEN,
       price: 0.1824,
       change24h: -1.12,
-    },
-    {
-      id: "shiba-inu",
-      name: "Shiba Inu",
-      symbol: "SHIB",
-      icon: "🐕",
-      price: 0.000028,
-      change24h: 2.45,
-    },
-    {
-      id: "pepe",
-      name: "Pepe",
-      symbol: "PEPE",
-      icon: "🐸",
-      price: 0.000012,
-      change24h: 5.67,
-    },
+    }
   ])
 
-  // Simulate live price updates
   useEffect(() => {
     const interval = setInterval(() => {
       setTokens((currentTokens) =>
         currentTokens.map((token) => {
-          // Random price change between -0.5% and +0.5%
           const priceChange = token.price * (Math.random() * 0.01 - 0.005)
           const newPrice = token.price + priceChange
-
-          // Random change in 24h percentage
           const changeShift = Math.random() * 0.2 - 0.1
           const newChange = token.change24h + changeShift
 
@@ -91,7 +72,6 @@ export const CryptoTicker: React.FC = () => {
     return () => clearInterval(interval)
   }, [])
 
-  // Format price based on its magnitude
   const formatPrice = (price: number) => {
     if (price < 0.0001) return price.toFixed(8)
     if (price < 0.01) return price.toFixed(6)
@@ -100,7 +80,6 @@ export const CryptoTicker: React.FC = () => {
     return price.toLocaleString(undefined, { maximumFractionDigits: 2 })
   }
 
-  // Duplicate tokens for seamless infinite scroll
   const allTokens = [...tokens, ...tokens, ...tokens]
 
   return (
@@ -113,7 +92,7 @@ export const CryptoTicker: React.FC = () => {
             {allTokens.map((token, index) => (
               <div key={`${token.id}-${index}`} className="tokenCard">
                 <div className="tokenIconWrapper">
-                  <span className="tokenIcon">{token.icon}</span>
+                <Image height={35} width={35} src={token.icon} className="tokenSymbol" alt="token"/>
                 </div>
                 <div className="tokenInfo">
                   <div className="tokenNameRow">

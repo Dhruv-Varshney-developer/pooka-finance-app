@@ -1,31 +1,59 @@
+@import "../../app/mixin.scss";
+
 .heroSection {
     display: flex;
     align-items: center;
     justify-content: center;
     position: relative;
-    padding: 80px 2rem 2rem;
+    padding: 80px 2rem 0;
     width: 100%;
     background-color: #000000;
+    margin-top: 20px;
+    @include lg{
+      margin-top: 40px;
+    }
+    .heroContainer {
+      z-index: 10;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      .statusBadge {
+        align-items: center;
+        gap: 0.5rem;
+        width: 20%;
+        display: flex;
+        background-color: #111111;
+        border: 1px solid #222222;
+        border-radius: 20px;
+        padding: 0.5rem 1rem;
+        margin-bottom: 2rem;
+        animation: fadeInUp 0.8s ease-out;
+        @include xl{
+          font-size: 22px;
+          display: flex;
+          justify-content: center;
+        }
+      }
+
+      .heroTitle {
+        font-size: 42px;
+        font-weight: 800;
+        margin-bottom: 3rem;
+        line-height: 1.1;
+        animation: fadeInUp 0.8s ease-out 0.2s both;
+        color: #ffffff;
+      }
+
+    }
+
+    
   }
   
-  .heroContainer {
-    text-align: center;
-    position: relative;
-    z-index: 2;
-    width: 100%;
-  }
   
-  .statusBadge {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    background-color: #111111;
-    border: 1px solid #222222;
-    border-radius: 20px;
-    padding: 0.5rem 1rem;
-    margin-bottom: 2rem;
-    animation: fadeInUp 0.8s ease-out;
-  }
+  
+  
   
   .statusDot {
     width: 8px;
@@ -45,14 +73,7 @@
     }
   }
   
-  .heroTitle {
-    font-size: clamp(3rem, 8vw, 6rem);
-    font-weight: 800;
-    margin-bottom: 3rem;
-    line-height: 1.1;
-    animation: fadeInUp 0.8s ease-out 0.2s both;
-    color: #ffffff;
-  }
+  
   
   .fireEmoji {
     display: inline-block;
@@ -96,9 +117,9 @@
   
   .curveContainer {
     position: relative;
-    margin-top: 4rem;
     animation: fadeInUp 0.8s ease-out 0.6s both;
     width: 100%;
+    z-index: -2;
   }
   
   .curveSvg {
@@ -121,7 +142,7 @@
   
   .curveText {
     position: absolute;
-    top: 50%;
+    top: 20%;
     left: 50%;
     transform: translate(-50%, -50%);
     text-align: center;
@@ -155,14 +176,14 @@
   }
   
   .bitcoin {
-    top: 20%;
+    top: 15%;
     right: 15%;
     color: #f7931a;
     animation-delay: 0s;
   }
   
   .ethereum {
-    top: 60%;
+    top: 50%;
     right: 10%;
     color: #627eea;
     animation-delay: 2s;
@@ -188,29 +209,7 @@
     }
   }
   
-  .heroImagePlaceholder {
-    position: absolute;
-    top: 50%;
-    right: 5%;
-    width: 300px;
-    height: 200px;
-    opacity: 0.3;
-    background-color: #111111;
-    border: 2px dashed #333333;
-    border-radius: 12px;
-    padding: 2rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  .imagePlaceholderText {
-    color: #666666;
-    font-size: 14px;
-    font-weight: 500;
-    text-align: center;
-  }
-  
+
   @keyframes fadeInUp {
     from {
       opacity: 0;
@@ -222,31 +221,5 @@
     }
   }
   
-  /* Responsive Design */
-  @media (max-width: 768px) {
-    .heroSection {
-      padding: 100px 1rem 2rem;
-    }
-  
-    .heroTitle {
-      font-size: 2.5rem;
-    }
-  
-    .heroImagePlaceholder {
-      position: static;
-      width: 100%;
-      margin-top: 2rem;
-      opacity: 1;
-    }
-  }
-  
-  @media (max-width: 480px) {
-    .heroSection {
-      padding: 100px 1rem 2rem;
-    }
-  
-    .heroTitle {
-      font-size: 2rem;
-    }
-  }
+
   

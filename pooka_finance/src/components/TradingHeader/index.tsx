@@ -109,7 +109,7 @@ export const TradingHeader = ({
         </div>
       </div>
 
-      <div className="statsSection">
+      <div className="statsSectionTrading">
         <div className="statItem">
           <span className="statLabel">24H High</span>
           <span className="statValue">${high24h.toLocaleString()}</span>

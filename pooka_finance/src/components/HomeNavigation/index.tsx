@@ -2,6 +2,7 @@
 
 import type React from "react"
 import "./styles.scss"
+import Link from "next/link";
 
 interface NavigationProps {
   onLaunchApp?: () => void
@@ -33,9 +34,7 @@ export const Navigation: React.FC<NavigationProps> = ({ onLaunchApp }) => {
           </a>
         </div>
 
-        <button className="launchButton" onClick={onLaunchApp}>
-          Launch App
-        </button>
+        <Link className="launchButton" onClick={onLaunchApp} href="/">Launch App</Link>
       </div>
     </nav>
   )

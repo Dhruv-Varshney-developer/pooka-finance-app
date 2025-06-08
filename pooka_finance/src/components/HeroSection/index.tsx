@@ -2,6 +2,8 @@
 
 import type React from "react"
 import "./styles.scss"
+import Image from "next/image"
+import { BTC_TOKEN, ETH_TOKEN, SOL_TOKEN } from "@/utils/constants"
 
 interface HeroSectionProps {
   onTradeNow?: () => void
@@ -9,7 +11,7 @@ interface HeroSectionProps {
 
 export const HeroSection: React.FC<HeroSectionProps> = ({ onTradeNow }) => {
   return (
-    <section className="heroSection">
+    <div className="heroSection">
       <div className="heroContainer">
         <div className="statusBadge">
           <div className="statusDot"></div>
@@ -17,7 +19,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onTradeNow }) => {
         </div>
 
         <h1 className="heroTitle">
-          Long or Short <span className="fireEmoji">🔥</span> Memes
+          Long or Short <span className="fireEmoji">🔥</span> Assets
         </h1>
 
         <button className="tradeNowButton" onClick={onTradeNow}>
@@ -41,18 +43,12 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onTradeNow }) => {
         </div>
       </div>
 
-      {/* Floating Crypto Icons */}
       <div className="floatingIcons">
-        <div className="floatingIcon bitcoin">₿</div>
-        <div className="floatingIcon ethereum">Ξ</div>
-        <div className="floatingIcon solana">◎</div>
+        <Image className="floatingIcon bitcoin" src={BTC_TOKEN} height={45} width={45} alt="btc"/>
+        <Image className="floatingIcon ethereum" src={ETH_TOKEN} height={45} width={45} alt="btc"/>
+        <Image className="floatingIcon solana" src={SOL_TOKEN} height={45} width={45} alt="btc"/>
       </div>
-
-      {/* Hero Background Image Placeholder */}
-      <div className="heroImagePlaceholder">
-        <span className="imagePlaceholderText">Hero Background Image</span>
-      </div>
-    </section>
+    </div>
   )
 }
 

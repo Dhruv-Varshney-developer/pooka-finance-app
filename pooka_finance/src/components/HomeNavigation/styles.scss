@@ -1,3 +1,4 @@
+@import "../../app/mixin.scss";
 .navigation {
   position: fixed;
   top: 0;
@@ -10,13 +11,11 @@
 }
 
 .navContainer {
-  max-width: 1200px;
   margin: 0 auto;
-  padding: 0 2rem;
+  padding: 20px 40px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 64px;
 }
 
 .logo {
@@ -50,8 +49,11 @@
 }
 
 .navLinks {
-  display: flex;
+  display: none;
   gap: 2rem;
+  @include lg{
+    display: flex;
+  }
 }
 
 .navLink {
@@ -66,14 +68,16 @@
 }
 
 .launchButton {
-  background: none;
+
   border: 2px solid #7bf179;
-  color: #7bf179;
+  color: #111111;
+  background-color: #7bf179;
   padding: 0.75rem 1.5rem;
   border-radius: 8px;
-  font-weight: 600;
+  font-weight: 800;
   cursor: pointer;
   transition: all 0.3s ease;
+  text-decoration: none;
 }
 
 .launchButton:hover {
@@ -83,13 +87,3 @@
   box-shadow: 0 8px 25px rgba(123, 241, 121, 0.3);
 }
 
-/* Responsive Design */
-@media (max-width: 768px) {
-  .navContainer {
-    padding: 0 1rem;
-  }
-
-  .navLinks {
-    display: none;
-  }
-}
