@@ -64,7 +64,7 @@ export const TradingHeader = ({
 
   const handleSelect = (market: Market) => {
     setSelectedMarket(market);
-    usePerpStore.getState().setSelectedPerp(market.name);
+    usePerpStore.getState().setSelectedPerp(market.symbol);
     setShowDropDown(false);
   };
 
