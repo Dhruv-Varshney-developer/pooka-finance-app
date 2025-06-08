@@ -1,24 +1,30 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client"
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { createChart, CandlestickSeries } from 'lightweight-charts';
 import './styles.scss';
-import { BTC_DUMMY_DATA } from '../Data/btc';
+import axios from 'axios';
+import { OHLC_DATA } from '@/store/types/types';
+import { usePerpStore } from '@/store/PerpStore';
+import { useShallow } from 'zustand/react/shallow';
 
 
 export const TradingChart = () => {
   const chartContainerRef = useRef<HTMLDivElement>(null);
   const chartRef = useRef<any>(null);
-
-  const currentLocale = window.navigator.languages[0];
-
- const myPriceFormatter = Intl.NumberFormat(currentLocale, {
+  const [ohlcData, setOhlcData]=useState<OHLC_DATA[]>([]);
+  const {
+    selectedPerp
+  }=usePerpStore(useShallow((state)=>({
+    selectedPerp:state.selectedPerp
+  })))
+ const myPriceFormatter = Intl.NumberFormat("US", {
     style: 'currency',
     currency: 'USD', 
 }).format;
+
   useEffect(() => {
     if (!chartContainerRef.current) return;
-
 
 
     chartRef.current = createChart(chartContainerRef.current, {
@@ -30,7 +36,7 @@ export const TradingChart = () => {
             vertLines: { color: '#444' },
             horzLines: { color: '#444' },
         },
-        height:500,
+        height:400,
         localization:{
           priceFormatter:myPriceFormatter
         }
@@ -52,18 +58,34 @@ export const TradingChart = () => {
   });
  
     const candleStickSeries = chartRef.current.addSeries(CandlestickSeries, { upColor: '#26a69a', downColor: '#ef5350', borderVisible:true, wickUpColor: '#26a69a', wickDownColor: '#ef5350' });
-    candleStickSeries.setData(BTC_DUMMY_DATA);
+    candleStickSeries.setData(ohlcData);
     chartRef.current.timeScale().fitContent();
 
-
-  
-    // Cleanup function
     return () => {
       if (chartRef.current) {
         chartRef.current.remove();
       }
     };
-  }, []);
+  }, [ohlcData]);
+
+
+  useEffect(()=>{
+    const fetchOHLCData = async () => {
+      try {
+        const res = await axios.get("/api/OHLCData",{
+          params:{
+            perp:selectedPerp
+          }
+        });
+        const data = await res.data;
+        console.log("OHLC Data:", data.data);
+        setOhlcData(data.data)
+      } catch (err) {
+        console.error("Failed to fetch OHLC data:", err);
+      }
+    };
+    fetchOHLCData();
+  },[selectedPerp])
 
 
   return (

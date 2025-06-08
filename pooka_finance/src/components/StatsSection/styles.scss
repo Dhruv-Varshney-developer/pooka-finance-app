@@ -1,0 +1,81 @@
+@import "../../app/mixin.scss";
+
+.statsSection {
+    padding: 10px;
+    background-color: #000000;
+    width: 100%;
+  }
+  
+  .statsContainer {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 3rem;
+  }
+  
+  .statItem {
+    text-align: center;
+    animation: fadeInUp 0.8s ease-out;
+  }
+  
+  .statLabel {
+    color: #cccccc;
+    font-size: 1rem;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+  }
+  
+  .betaBadge {
+    background-color: #7bf179;
+    color: #000000;
+    padding: 0.25rem 0.5rem;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 600;
+  }
+  
+  .statValue {
+    font-size: 3rem;
+    font-weight: 800;
+    color: #ffffff;
+    animation: countUp 2s ease-out;
+  }
+  
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  @keyframes countUp {
+    from {
+      opacity: 0;
+      transform: scale(0.5);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 480px) {
+    .statsContainer {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+  
+    .statValue {
+      font-size: 2rem;
+    }
+  }
+  

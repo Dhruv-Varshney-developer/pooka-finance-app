@@ -1,43 +1,99 @@
 "use client"
 
 import type React from "react"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import "./styles.scss"
+import { useBalance } from "wagmi"
+import { useWalletStore } from "@/store/walletStore";
+import { useShallow } from 'zustand/react/shallow'
+import { ConnectButton } from "@rainbow-me/rainbowkit"
+import { usePerpStore } from "@/store/PerpStore"
+import { Loader2 } from "lucide-react"
+import { useCreateDeposit } from "@/hooks/useCreateDeposit"
+const OrderComponent: React.FC = () => {
+  const [positionType, setPositionType]=useState<"Long" | "Short">("Long");
+  const {
+    address
+  }=useWalletStore(useShallow((state)=>({
+    address:state.userWalletAddress
+  })))
+  const {
+    selectedPerp,
+  }=usePerpStore(useShallow((state)=>({
+    selectedPerp:state.selectedPerp,
+    leverage:state.leverage
+  })))
 
-interface OrderComponentProps {
-  onConnectWallet?: () => void
-  isWalletConnected?: boolean
-}
+  const {data, isLoading:isBalanceLoading}=useBalance({
+    address:address as `0x${string}`
+  })
 
-const OrderComponent: React.FC<OrderComponentProps> = ({ onConnectWallet, isWalletConnected = false }) => {
-  const [activeTab, setActiveTab] = useState<"Market" | "Limit">("Market")
-  const [youPay, setYouPay] = useState("0")
-  const [leverageIndex, setLeverageIndex] = useState(0)
+  useEffect(()=>{
+    console.log("The address of the user",address)
+  },[address, selectedPerp])
 
-  const leverageOptions = [1, 2, 5, 10, 20]
+  const [collateralAmount, setCollateralAmount] = useState<string>("0")
+  const [leverageIndex, setLeverageIndex] = useState<number>(0);
+
+  const leverageOptions = [1,2,3,4,5,10,15,20]
+
+  // const {
+  //   openPosition,
+  //   isPending
+  // }=useOpenPosition();
+  const {
+    createDeposit,
+    isLoading
+  }=useCreateDeposit();
+
+  const handleCreateDeposit=()=>{
+    // const isLong=positionType==="Long";
+    try{
+      createDeposit(
+        collateralAmount,
+      )
+    }catch(err){
+      console.log("Error occured",err)
+    }
+  }
+
+  console.log("THe address is",address)
 
   return (
     <div className="orderComponent">
       <div className="tabContainer">
-        <button className={`tab ${activeTab === "Market" ? "activeTab" : ""}`} onClick={() => setActiveTab("Market")}>
+        <div  className="MarketTab">
+        <button className="activeLong">
           Market
         </button>
-        <button className={`tab ${activeTab === "Limit" ? "activeTab" : ""}`} onClick={() => setActiveTab("Limit")}>
-          Limit
-        </button>
+        </div>
+        <div className="PositionTab">
+          <button
+         className={positionType === "Long" ? "activeLong" : ""}
+         onClick={() => setPositionType("Long")}
+         >
+         Long
+         </button>
+         <button
+         className={positionType === "Short" ? "activeShort" : ""}
+          onClick={() => setPositionType("Short")}
+          >
+         Short
+         </button>
+         </div>
       </div>
 
       <div className="orderForm">
         <div className="formRow">
           <label className="formLabel">You Pay</label>
-          <div className="availableBalance">Avbl: $0.00</div>
+          {!isBalanceLoading ?<div className="availableBalance">Your Balance : {data?.symbol} {(Number(data?.value)/(10**Number(data?.decimals))).toFixed(4)}</div> : "Fetching Balance"}
         </div>
 
         <div className="inputContainer">
           <input
             type="text"
-            value={youPay}
-            onChange={(e) => setYouPay(e.target.value)}
+            value={collateralAmount}
+            onChange={(e) => setCollateralAmount(e.target.value)}
             className="orderInput"
             placeholder="0"
           />
@@ -74,7 +130,7 @@ const OrderComponent: React.FC<OrderComponentProps> = ({ onConnectWallet, isWall
                 </span>
               ))}
             </div>
-            <div className="selectedLeverage">{leverageOptions[leverageIndex]}x</div>
+        
           </div>
         </div>
 
@@ -96,10 +152,35 @@ const OrderComponent: React.FC<OrderComponentProps> = ({ onConnectWallet, isWall
             <span className="detailValue">--</span>
           </div>
         </div>
-
-        <button className="connectWalletButton" onClick={onConnectWallet}>
-          {isWalletConnected ? "Place Order" : "Connect Wallet"}
-        </button>
+        {
+  address !== undefined ? (
+    !isLoading ? (
+      <button className="connectWalletButton" onClick={handleCreateDeposit}>
+        Deposit
+      </button>
+    ) : (
+      <Loader2 />
+    )
+  ) : (
+    <ConnectButton.Custom>
+      {({ openConnectModal, account, authenticationStatus, mounted }) => {
+        const ready = mounted && authenticationStatus !== "loading";
+        return (
+          <button
+            className="connectWalletButton"
+            onClick={() => {
+              openConnectModal();
+              useWalletStore.getState().setUserWalletAddress(account?.address as string);
+            }}
+            disabled={!ready}
+          >
+            Connect Wallet
+          </button>
+        );
+      }}
+    </ConnectButton.Custom>
+  )
+}
       </div>
     </div>
   )

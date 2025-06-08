@@ -1,0 +1,246 @@
+@import "../../app/mixin.scss";
+
+.cryptoTickerSection {
+    padding: 40px 32px;
+    background-color: #1a1a1a;
+    width: 100%;
+    overflow: hidden;
+  }
+  
+  .tickerContainer {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  .tickerTitle {
+    text-align: center;
+    font-size: 3rem;
+    font-weight: 800;
+    margin-bottom: 20px;
+    color: #ffffff;
+  }
+  
+  .tickerWrapper {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    padding: 1rem 0;
+  }
+  
+  .tickerWrapper::before,
+  .tickerWrapper::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    width: 100px;
+    height: 100%;
+    z-index: 2;
+    pointer-events: none;
+  }
+  
+  .tickerWrapper::before {
+    left: 0;
+    background: linear-gradient(to right, #1a1a1a, transparent);
+  }
+  
+  .tickerWrapper::after {
+    right: 0;
+    background: linear-gradient(to left, #1a1a1a, transparent);
+  }
+  
+  .ticker {
+    display: flex;
+    animation: ticker 60s linear infinite;
+    will-change: transform;
+  }
+  
+  @keyframes ticker {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-33.333%);
+    }
+  }
+  
+  .ticker:hover {
+    animation-play-state: paused;
+  }
+  
+  .tokenCard {
+    flex: 0 0 auto;
+    background-color: #2a2a2a;
+    border: 1px solid #3a3a3a;
+    border-radius: 16px;
+    padding: 1.5rem;
+    margin: 0 1rem;
+    width: 280px;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  }
+  
+  .tokenCard:hover {
+    transform: translateY(-5px);
+    border-color: #7bf179;
+    box-shadow: 0 10px 30px rgba(123, 241, 121, 0.2);
+  }
+  
+  .tokenIconWrapper {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #2a2a2a, #3a3a3a);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    flex-shrink: 0;
+  }
+  
+  .tokenInfo {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .tokenNameRow {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .tokenName {
+    font-weight: 600;
+    font-size: 16px;
+    color: #ffffff;
+  }
+  
+  .tokenSymbol {
+    font-size: 14px;
+    color: #888888;
+    font-weight: 500;
+  }
+  
+  .tokenPriceRow {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .tokenPrice {
+    font-size: 18px;
+    font-weight: 700;
+    color: #ffffff;
+  }
+  
+  .tokenChange {
+    font-size: 14px;
+    font-weight: 600;
+    padding: 4px 8px;
+    border-radius: 8px;
+  }
+  
+  .tokenChange.positive {
+    color: #22c55e;
+    background-color: rgba(34, 197, 94, 0.1);
+  }
+  
+  .tokenChange.negative {
+    color: #ef4444;
+    background-color: rgba(239, 68, 68, 0.1);
+  }
+  
+  /* Price update animation */
+  .tokenPrice {
+    position: relative;
+  }
+  
+  .tokenPrice.flash::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(123, 241, 121, 0.3);
+    border-radius: 4px;
+    animation: flash 1s ease-out;
+  }
+  
+  @keyframes flash {
+    0%,
+    100% {
+      opacity: 0;
+    }
+    50% {
+      opacity: 1;
+    }
+  }
+  
+  // /* Responsive design */
+  // @media (max-width: 768px) {
+  //   .cryptoTickerSection {
+  //     padding: 4rem 1rem;
+  //   }
+  
+  //   .tickerTitle {
+  //     font-size: 2.5rem;
+  //     margin-bottom: 3rem;
+  //   }
+  
+  //   .tokenCard {
+  //     width: 240px;
+  //     padding: 1.25rem;
+  //   }
+  
+  //   .tokenIconWrapper {
+  //     width: 40px;
+  //     height: 40px;
+  //     font-size: 20px;
+  //   }
+  
+  //   .tokenName {
+  //     font-size: 14px;
+  //   }
+  
+  //   .tokenSymbol {
+  //     font-size: 12px;
+  //   }
+  
+  //   .tokenPrice {
+  //     font-size: 16px;
+  //   }
+  
+  //   .tokenChange {
+  //     font-size: 12px;
+  //     padding: 3px 6px;
+  //   }
+  // }
+  
+  // @media (max-width: 480px) {
+  //   .cryptoTickerSection {
+  //     padding: 3rem 0.5rem;
+  //   }
+  
+  //   .tickerTitle {
+  //     font-size: 2rem;
+  //     margin-bottom: 2rem;
+  //   }
+  
+  //   .tokenCard {
+  //     width: 200px;
+  //     padding: 1rem;
+  //     margin: 0 0.5rem;
+  //   }
+  
+  //   .tokenIconWrapper {
+  //     width: 36px;
+  //     height: 36px;
+  //     font-size: 18px;
+  //   }
+  // }
+  
