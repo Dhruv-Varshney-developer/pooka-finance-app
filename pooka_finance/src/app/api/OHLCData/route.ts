@@ -1,4 +1,5 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
+import { NextApiRequest } from "next";
 import axios from "axios";
 import dotenv from "dotenv";
 dotenv.config()
@@ -16,18 +17,24 @@ interface ApiData{
 
 
 
-export async function GET(request:NextRequest) {
+export async function GET(request:NextApiRequest) {
     try{
-     const data=request.body;
-     console.log("THe requested data",data);
+     const {perp }=request.query;
+     console.log("THe requested data",perp);
+     if(perp===undefined || perp==="") {
+      return NextResponse.json(
+        { error: `Error fetching data from Polygon API because of invalid perp name: ${perp}` },
+        { status: 400 }
+      );
+     }
      const DATE_NOW="2024-08-09";
      const BASE_URL="https://api.polygon.io/v2/aggs/ticker";
      const DATE_TO="2025-06-05";
      const API_KEY=process.env.API_KEY;
-     const CURRENCY_TICKER:"X:ETHUSD" | "X:BTCUSD"="X:BTCUSD";
+     const CURRENCY_TICKER:string=perp?.toString().replace("/","");
      const PARTS:"day" | "month" | "week" | "hour"="day";
-
-     const result=await axios.get(`${BASE_URL}/${CURRENCY_TICKER}/range/1/${PARTS}/${DATE_NOW}/${DATE_TO}?adjusted=true&sort=asc&apiKey=${API_KEY}`)
+     console.log("The api key is",API_KEY)
+     const result=await axios.get(`${BASE_URL}/X:${CURRENCY_TICKER}/range/1/${PARTS}/${DATE_NOW}/${DATE_TO}?adjusted=true&sort=asc&apiKey=${API_KEY}`)
 
      const ohlcData = result.data.results.map((item:ApiData) => ({
         time: new Date(item.t).toISOString().split("T")[0],

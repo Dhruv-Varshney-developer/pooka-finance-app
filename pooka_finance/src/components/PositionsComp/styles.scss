@@ -1,168 +1,468 @@
-@import "../../app/mixin.scss";
-
 .positionsComponent {
-    background-color: #1a1a1a;
-    border-radius: 12px;
-    border: 1px solid #2a2a2a;
-    color: #ffffff;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    width: 100%;
-    min-height: 200px;
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .tabsContainer {
-    border-bottom: 1px solid #2a2a2a;
-    padding: 0 20px;
-  }
-  
-  .tabsList {
-    display: flex;
-    gap: 0;
-    align-items: center;
-  }
-  
-  .tabButton {
-    background: none;
-    border: none;
-    color: #888888;
-    padding: 16px 20px;
-    cursor: pointer;
-    font-size: 14px;
-    font-weight: 500;
-    transition: all 0.2s ease;
-    position: relative;
-    border-bottom: 2px solid transparent;
-  }
-  
-  .tabButton:hover {
+  background-color: #1a1a1a;
+  border-radius: 12px;
+  border: 1px solid #2a2a2a;
+  color: #ffffff;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  width: 100%;
+  min-height: 200px;
+  display: flex;
+  flex-direction: column;
+}
+
+.tabsContainer {
+  border-bottom: 1px solid #2a2a2a;
+  padding: 0 20px;
+}
+
+.tabsList {
+  display: flex;
+  gap: 0;
+  align-items: center;
+}
+
+.tabButton {
+  background: none;
+  border: none;
+  color: #888888;
+  padding: 16px 20px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  position: relative;
+  border-bottom: 2px solid transparent;
+
+  &:hover {
     color: #cccccc;
   }
-  
-  .tabButton.active {
+
+  &.active {
     color: #ffffff;
     border-bottom-color: #7bf179;
-  }
-  
-  .tabButton.active::after {
-    content: "";
-    position: absolute;
-    bottom: -1px;
-    left: 0;
-    right: 0;
-    height: 2px;
-    background-color: #7bf179;
-  }
-  
-  .tabContent {
-    flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 40px 20px;
-    min-height: 120px;
-  }
-  
-  .emptyState {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    height: 100%;
-  }
-  
-  .emptyStateText {
-    color: #888888;
-    font-size: 14px;
-    font-weight: 500;
-    text-align: center;
-  }
-  
-  /* Responsive design */
-  @media (max-width: 768px) {
-    .positionsComponent {
-      border-radius: 8px;
-      min-height: 160px;
-    }
-  
-    .tabsContainer {
-      padding: 0 16px;
-    }
-  
-    .tabsList {
-      overflow-x: auto;
-      scrollbar-width: none;
-      -ms-overflow-style: none;
-    }
-  
-    .tabsList::-webkit-scrollbar {
-      display: none;
-    }
-  
-    .tabButton {
-      padding: 14px 16px;
-      font-size: 13px;
-      white-space: nowrap;
-      flex-shrink: 0;
-    }
-  
-    .tabContent {
-      padding: 30px 16px;
-      min-height: 100px;
-    }
-  
-    .emptyStateText {
-      font-size: 13px;
+
+    &::after {
+      content: "";
+      position: absolute;
+      bottom: -1px;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background-color: #7bf179;
     }
   }
-  
-  @media (max-width: 480px) {
-    .tabButton {
-      padding: 12px 14px;
-      font-size: 12px;
-    }
-  
-    .tabContent {
-      padding: 24px 12px;
-      min-height: 80px;
-    }
-  
-    .emptyStateText {
-      font-size: 12px;
-    }
-  }
-  
-  /* Hover effects */
-  .positionsComponent:hover {
-    border-color: #3a3a3a;
-    transition: border-color 0.3s ease;
-  }
-  
-  /* Focus states for accessibility */
-  .tabButton:focus {
+
+  &:focus {
     outline: none;
     background-color: rgba(123, 241, 121, 0.1);
   }
-  
-  .tabButton:focus-visible {
+
+  &:focus-visible {
     outline: 2px solid #7bf179;
     outline-offset: -2px;
   }
+}
+
+.tabContent {
+  flex: 1;
+  padding: 20px;
+  min-height: 120px;
+  animation: fadeIn 0.2s ease-in-out;
+}
+
+// Loading State
+.loadingState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 200px;
+  gap: 16px;
+}
+
+.loadingSpinner {
+  width: 32px;
+  height: 32px;
+  border: 3px solid #2a2a2a;
+  border-top: 3px solid #7bf179;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+.loadingText {
+  color: #888888;
+  font-size: 14px;
+}
+
+// Error State
+.errorState {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 200px;
+}
+
+.errorText {
+  color: #ff6b6b;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+// Empty State
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 200px;
+  gap: 12px;
+}
+
+.emptyIcon {
+  color: #444444;
+  margin-bottom: 6px;
+}
+
+.emptyStateText {
+  color: #888888;
+  font-size: 14px;
+  font-weight: 500;
+  text-align: center;
+}
+
+.emptyStateSubtext {
+  color: #666666;
+  font-size: 12px;
+  text-align: center;
+}
+
+// Positions Table
+.positionsTable {
+  width: 100%;
+  border-radius: 6px;
+  overflow: hidden;
+  border: 1px solid #333333;
+}
+
+.positionsHeader {
+  display: grid;
+  grid-template-columns: 140px 90px 120px 120px 120px 110px 110px 140px 120px 80px;
+  background: #2a2a2a;
+  border-bottom: 1px solid #333333;
+  padding: 0;
+}
+
+.headerCell {
+  padding: 12px 8px;
+  font-size: 11px;
+  font-weight: 600;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #888888;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-right: 1px solid #333333;
   
-  /* Animation for tab switching */
+  &:last-child {
+    border-right: none;
+  }
+}
+
+.positionsBody {
+  background: #222222;
+}
+
+.positionRow {
+  display: grid;
+  grid-template-columns: 140px 90px 120px 120px 120px 110px 110px 140px 120px 80px;
+  border-bottom: 1px solid #333333;
+  transition: background-color 0.2s ease;
+
+  &:hover {
+    background: #252525;
+  }
+
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.positionCell {
+  padding: 12px 8px;
+  border-right: 1px solid #333333;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 60px;
+
+  &:last-child {
+    border-right: none;
+  }
+
+  &.directionCell {
+    justify-content: flex-start;
+    align-items: center;
+  }
+
+  &.pnlCell {
+    justify-content: center;
+  }
+
+  &.riskCell {
+    justify-content: center;
+  }
+}
+
+.directionContainer {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+}
+
+.cellValue {
+  font-size: 12px;
+  font-weight: 500;
+  color: #ffffff;
+  text-align: center;
+}
+
+.directionBadge {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  width: fit-content;
+  flex-shrink: 0;
+
+  &.long {
+    background: rgba(123, 241, 121, 0.15);
+    color: #7bf179;
+  }
+
+  &.short {
+    background: rgba(255, 107, 107, 0.15);
+    color: #ff6b6b;
+  }
+}
+
+.positionStatus {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 10px;
+  color: #888888;
+  flex-shrink: 0;
+}
+
+.statusDot {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+
+  &.open {
+    background: #7bf179;
+  }
+
+  &.closed {
+    background: #888888;
+  }
+}
+
+.liquidationWarning {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 8px;
+  background: rgba(255, 107, 107, 0.15);
+  color: #ff6b6b;
+  border-radius: 4px;
+  font-size: 10px;
+  font-weight: 500;
+  width: fit-content;
+}
+
+.noRisk {
+  color: #666666;
+  font-size: 12px;
+}
+
+.pnlValue {
+  font-size: 12px;
+  font-weight: 600;
+  text-align: right;
+}
+
+// Animations
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+// Responsive Design
+@media (max-width: 1200px) {
+  .positionsHeader,
+  .positionRow {
+    grid-template-columns: 120px 80px 70px 90px 90px 100px 100px 110px 110px 70px;
+  }
+}
+
+@media (max-width: 1024px) {
+  .positionsHeader,
+  .positionRow {
+    grid-template-columns: 110px 75px 65px 85px 85px 95px 95px 100px 100px 65px;
+  }
+
+  .headerCell,
+  .positionCell {
+    padding: 10px 6px;
+  }
+
+  .cellValue {
+    font-size: 11px;
+  }
+
+  .directionBadge {
+    font-size: 9px;
+    padding: 3px 6px;
+  }
+}
+
+@media (max-width: 768px) {
+  .positionsTable {
+    overflow-x: auto;
+  }
+
+  .positionsHeader,
+  .positionRow {
+    grid-template-columns: 100px 70px 60px 80px 80px 90px 90px 95px 95px 60px;
+    min-width: 820px;
+  }
+
+  .headerCell,
+  .positionCell {
+    padding: 8px 4px;
+  }
+
+  .cellValue {
+    font-size: 10px;
+  }
+
+  .directionBadge {
+    font-size: 8px;
+    padding: 2px 4px;
+  }
+
+  .liquidationWarning {
+    font-size: 8px;
+    padding: 2px 4px;
+  }
+
+  .positionStatus {
+    font-size: 9px;
+  }
+}
+
+@media (max-width: 480px) {
+  .positionsHeader,
+  .positionRow {
+    grid-template-columns: 90px 65px 55px 75px 75px 85px 85px 90px 90px 55px;
+    min-width: 770px;
+  }
+
+  .headerCell,
+  .positionCell {
+    padding: 6px 3px;
+  }
+
+  .cellValue {
+    font-size: 9px;
+  }
+
+  .directionContainer {
+    gap: 6px;
+  }
+}
+
+@media (max-width: 768px) {
+  .positionsComponent {
+    border-radius: 8px;
+    min-height: 160px;
+  }
+
+  .tabsContainer {
+    padding: 0 16px;
+  }
+
+  .tabsList {
+    overflow-x: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+
+  .tabButton {
+    padding: 14px 16px;
+    font-size: 13px;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
   .tabContent {
-    animation: fadeIn 0.2s ease-in-out;
+    padding: 16px;
+    min-height: 100px;
   }
-  
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-      transform: translateY(4px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
+
+  .emptyStateText {
+    font-size: 14px;
   }
-  
+
+  .emptyStateSubtext {
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .tabButton {
+    padding: 12px 14px;
+    font-size: 12px;
+  }
+
+  .tabContent {
+    padding: 12px;
+    min-height: 80px;
+  }
+
+  .emptyStateText {
+    font-size: 13px;
+  }
+
+  .emptyStateSubtext {
+    font-size: 11px;
+  }
+}
+
+// Hover effects
+.positionsComponent:hover {
+  border-color: #3a3a3a;
+  transition: border-color 0.3s ease;
+}

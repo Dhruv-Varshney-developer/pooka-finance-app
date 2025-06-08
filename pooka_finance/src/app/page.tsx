@@ -1,10 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React from "react";
 import { Navbar } from "@/components/Navbar";
-import PerpetualSelector from "@/components/PerpsSelector";
 import { TradingChart } from "@/components/TradingChart";
 import TradingPanel from "../components/TradingPanel";
-import TradingHeader from "@/components/TradingHeader";
+import { TradingHeader } from "@/components/TradingHeader";
 import { PriceTickerComponent } from "@/components/PriceTicker";
 import { AgentChat } from "../components/AIAgent";
 import "./global.css";

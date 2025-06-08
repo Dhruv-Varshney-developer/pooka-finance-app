@@ -2,24 +2,37 @@
 "use client"
 
 import type React from "react"
-import { useState } from "react"
+import { useState, useRef, useEffect } from "react"
 import "./styles.scss"
 import { MARKET_SYMBOLS } from "@/utils/constants"
+import { usePerpStore } from "@/store/PerpStore"
+import Image from "next/image"
 
-interface TradingHeaderProps {
-  symbol?: string
-  baseAsset?: string
-  quoteAsset?: string
-  currentPrice?: number
-  priceChange?: number
-  priceChangePercent?: number
-  high24h?: number
-  low24h?: number
-  funding1h?: number
-  reqMaintenance?: number
+// interface TradingHeaderProps {
+//   symbol?: string
+//   baseAsset?: string
+//   quoteAsset?: string
+//   currentPrice?: number
+//   priceChange?: number
+//   priceChangePercent?: number
+//   high24h?: number
+//   low24h?: number
+//   funding1h?: number
+//   reqMaintenance?: number
+// }
+
+const markets = [
+  { symbol: 'ETH/USD', name: 'Ethereum Perpetual', logo:"/assets/eth.svg"},
+  { symbol: 'BTC/USD', name: 'Bitcoin Perpetual', logo:"/assets/btc.svg"},
+];
+
+interface Market {
+  symbol: string;
+  name: string;
+  logo: string;
 }
 
-const TradingHeader: React.FC<TradingHeaderProps> = ({
+export const TradingHeader = ({
   symbol = "BTC/USD",
   baseAsset = "BTC",
   quoteAsset = "USD",
@@ -31,19 +44,60 @@ const TradingHeader: React.FC<TradingHeaderProps> = ({
   funding1h = 0.0028,
   reqMaintenance = 2.0,
 }) => {
-  const [activeOrderTab, setActiveOrderTab] = useState<"Market" | "Limit">("Market")
+  const [showDropDown, setShowDropDown] = useState<boolean>(false);
+  const [selectedMarket, setSelectedMarket] = useState<Market>(markets[1]);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+  const isPositive = priceChange >= 0;
 
-  const isPositive = priceChange >= 0
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setShowDropDown(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
+  const handleSelect = (market: Market) => {
+    setSelectedMarket(market);
+    usePerpStore.getState().setSelectedPerp(market.name);
+    setShowDropDown(false);
+  };
+
+  const toggleDropdown = () => {
+    setShowDropDown(!showDropDown);
+  };
 
   return (
     <div className="tradingHeader">
       <div className="priceSection">
-        <div className="symbolContainer">
-          <div className="symbolIcon">₿</div>
-          <div className="symbolInfo">
-            <span className="symbolText">{symbol}</span>
-            <div className="symbolDropdown">▼</div>
+        <div className="symbolContainer" ref={dropdownRef}>
+          <div className="symbolIcon">
+            <Image height={30} width={30} src={selectedMarket.logo} alt="image" className="mt-2"/>
+            </div>
+          <div className="symbolInfo" onClick={toggleDropdown}>
+            <span className="symbolText">{selectedMarket.symbol}</span>
+            <div className={`symbolDropdown ${showDropDown ? 'open' : ''}`}>▼</div>
           </div>
+          
+          {showDropDown && (
+            <div className="dropdownMenu">
+              {markets.map((market) => (
+                <div
+                  key={market.symbol}
+                  className={`dropdownItem ${selectedMarket.symbol === market.symbol ? 'selected' : ''}`}
+                  onClick={() => handleSelect(market)}
+                >
+                   <span className="marketName">{market.name}</span>
+                  <span className="marketSymbol">{market.symbol}</span>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
 
         <div className="priceInfo">
@@ -76,5 +130,3 @@ const TradingHeader: React.FC<TradingHeaderProps> = ({
     </div>
   )
 }
-
-export default TradingHeader

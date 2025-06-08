@@ -5,13 +5,19 @@ import { createChart, CandlestickSeries } from 'lightweight-charts';
 import './styles.scss';
 import axios from 'axios';
 import { OHLC_DATA } from '@/store/types/types';
+import { usePerpStore } from '@/store/PerpStore';
+import { useShallow } from 'zustand/react/shallow';
 
 
 export const TradingChart = () => {
   const chartContainerRef = useRef<HTMLDivElement>(null);
   const chartRef = useRef<any>(null);
   const [ohlcData, setOhlcData]=useState<OHLC_DATA[]>([]);
- 
+  const {
+    selectedPerp
+  }=usePerpStore(useShallow((state)=>({
+    selectedPerp:state.selectedPerp
+  })))
  const myPriceFormatter = Intl.NumberFormat("US", {
     style: 'currency',
     currency: 'USD', 
@@ -31,7 +37,6 @@ export const TradingChart = () => {
             horzLines: { color: '#444' },
         },
         height:400,
-        width:600,
         localization:{
           priceFormatter:myPriceFormatter
         }
@@ -67,7 +72,11 @@ export const TradingChart = () => {
   useEffect(()=>{
     const fetchOHLCData = async () => {
       try {
-        const res = await axios.get("/api/OHLCData");
+        const res = await axios.get("/api/OHLCData",{
+          params:{
+            perp:selectedPerp
+          }
+        });
         const data = await res.data;
         console.log("OHLC Data:", data.data);
         setOhlcData(data.data)
@@ -76,7 +85,7 @@ export const TradingChart = () => {
       }
     };
     fetchOHLCData();
-  },[])
+  },[selectedPerp])
 
 
   return (

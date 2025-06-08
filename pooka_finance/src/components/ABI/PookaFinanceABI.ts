@@ -245,30 +245,34 @@ export const POOKA_ABI = [
     type: "function",
   },
   {
-    inputs: [
-      { internalType: "address", name: "user", type: "address" },
-      { internalType: "string", name: "symbol", type: "string" },
-    ],
     name: "getPosition",
+    type: "function",
+    stateMutability: "view",
+    inputs: [
+      { name: "user", type: "address" },
+      { name: "symbol", type: "string" }
+    ],
     outputs: [
       {
-        components: [
-          { internalType: "uint256", name: "size", type: "uint256" },
-          { internalType: "uint256", name: "collateral", type: "uint256" },
-          { internalType: "uint256", name: "entryPrice", type: "uint256" },
-          { internalType: "uint256", name: "currentPrice", type: "uint256" },
-          { internalType: "bool", name: "isLong", type: "bool" },
-          { internalType: "bool", name: "isOpen", type: "bool" },
-          { internalType: "bool", name: "canBeLiquidated", type: "bool" },
-        ],
-        internalType: "struct CrossChainPerps.PositionInfo",
         name: "",
         type: "tuple",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
+        components: [
+          { name: "size", type: "uint256" },
+          { name: "collateral", type: "uint256" },
+          { name: "entryPrice", type: "uint256" },
+          { name: "leverage", type: "uint256" },
+          { name: "isLong", type: "bool" },
+          { name: "isOpen", type: "bool" },
+          { name: "currentPrice", type: "uint256" },
+          { name: "liquidationPrice", type: "uint256" },
+          { name: "unrealizedPnL", type: "int256" },
+          { name: "netPnL", type: "int256" },
+          { name: "canBeLiquidated", type: "bool" },
+        ]
+      }
+    ]
+  }
+  ,
   {
     inputs: [
       { internalType: "address", name: "user", type: "address" },
