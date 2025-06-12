@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { NextRequest } from "next/server";
 import axios from "axios";
 import dotenv from "dotenv";
+import { returnFormattedDate, getPastDate } from "@/utils/helperFunction";
 dotenv.config()
 
 interface ApiData{
@@ -28,14 +29,18 @@ export async function GET(request:NextRequest) {
         { status: 400 }
       );
      }
-     const DATE_NOW="2024-08-09";
+     const DATE_NOW=returnFormattedDate(new Date(new Date().setDate(new Date().getDate()-2))) || "2024-08-09";
+   
      const BASE_URL="https://api.polygon.io/v2/aggs/ticker";
-     const DATE_TO="2025-06-05";
+     const DATE_TO= getPastDate() || "2025-06-05";
+     console.log("The Dat is",DATE_NOW, DATE_TO)
      const API_KEY=process.env.API_KEY;
      const CURRENCY_TICKER:string=perp.toString().replace("/","");
      const PARTS:"day" | "month" | "week" | "hour"="day";
      console.log("The api key is",API_KEY)
-     const result=await axios.get(`${BASE_URL}/X:${CURRENCY_TICKER}/range/1/${PARTS}/${DATE_NOW}/${DATE_TO}?adjusted=true&sort=asc&apiKey=${API_KEY}`)
+     const URL_POLYGON=`${BASE_URL}/X:${CURRENCY_TICKER}/range/1/${PARTS}/${DATE_TO}/${DATE_NOW}?adjusted=true&sort=asc&apiKey=${API_KEY}`;
+     console.log(URL_POLYGON)
+     const result=await axios.get(URL_POLYGON)
 
      const ohlcData = result.data.results.map((item:ApiData) => ({
         time: new Date(item.t).toISOString().split("T")[0],

@@ -7,7 +7,7 @@ import axios from 'axios';
 import { OHLC_DATA } from '@/store/types/types';
 import { usePerpStore } from '@/store/PerpStore';
 import { useShallow } from 'zustand/react/shallow';
-import { GraphSkeleton } from '../LoadingComponents/GraphSkeleton';
+import { TradingChartSkeleton } from '../LoadingComponents/GraphSkeleton';
 import TimeSelector from './TimeSelector';
 
 
@@ -98,7 +98,7 @@ export const TradingChart = () => {
 
   return (
     loading ? (
-      <GraphSkeleton />
+      <TradingChartSkeleton />
     ) : (
       <div className="candlestickChartWrapper">
         <TimeSelector/>
