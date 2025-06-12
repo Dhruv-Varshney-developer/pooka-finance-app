@@ -7,17 +7,23 @@ import axios from 'axios';
 import { OHLC_DATA } from '@/store/types/types';
 import { usePerpStore } from '@/store/PerpStore';
 import { useShallow } from 'zustand/react/shallow';
+import { GraphSkeleton } from '../LoadingComponents/GraphSkeleton';
+import TimeSelector from './TimeSelector';
 
 
 export const TradingChart = () => {
   const chartContainerRef = useRef<HTMLDivElement>(null);
   const chartRef = useRef<any>(null);
-  const [ohlcData, setOhlcData]=useState<OHLC_DATA[]>([]);
+  const [ohlcData, setOhlcData]=useState<OHLC_DATA[] >([]);
+  const [loading, setLoading]=useState<boolean>(true);
+
+  
   const {
     selectedPerp
   }=usePerpStore(useShallow((state)=>({
     selectedPerp:state.selectedPerp
   })))
+
  const myPriceFormatter = Intl.NumberFormat("US", {
     style: 'currency',
     currency: 'USD', 
@@ -25,8 +31,8 @@ export const TradingChart = () => {
 
   useEffect(() => {
     if (!chartContainerRef.current) return;
-
-
+   
+    
     chartRef.current = createChart(chartContainerRef.current, {
         layout: {
             background: { color: '#222' },
@@ -70,6 +76,7 @@ export const TradingChart = () => {
 
 
   useEffect(()=>{
+    setLoading(true);
     const fetchOHLCData = async () => {
       try {
         const res = await axios.get("/api/OHLCData",{
@@ -80,6 +87,7 @@ export const TradingChart = () => {
         const data = await res.data;
         console.log("OHLC Data:", data.data);
         setOhlcData(data.data)
+        setLoading(false)
       } catch (err) {
         console.error("Failed to fetch OHLC data:", err);
       }
@@ -89,8 +97,13 @@ export const TradingChart = () => {
 
 
   return (
-    <div className="candlestickChartWrapper">
-      <div ref={chartContainerRef} className="chart" />
-    </div>
+    loading ? (
+      <GraphSkeleton />
+    ) : (
+      <div className="candlestickChartWrapper">
+        <TimeSelector/>
+        <div ref={chartContainerRef} className="chart" />
+      </div>
+    )
   );
 };
