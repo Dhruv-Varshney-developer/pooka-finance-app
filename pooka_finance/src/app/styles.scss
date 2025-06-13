@@ -10,9 +10,14 @@
   .tradingLayoutWrapper {
     display: flex;
     flex-direction: column;
-    padding: 1rem;
     max-height: 86%;
     overflow: auto;
+
+    @include xl{
+      padding-inline: 60px;
+      padding-block: 16px;
+    }
+
 
     .MidComponentWrapper{
       display: flex;
@@ -20,6 +25,7 @@
       justify-content: flex-start;
       gap: 10px;
       width: 100%;
+      margin-bottom: 20px;
 
       @include xxl{
         width: 100%;

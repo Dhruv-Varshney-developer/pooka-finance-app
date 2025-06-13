@@ -4,9 +4,11 @@
 import type React from "react"
 import { useState, useRef, useEffect } from "react"
 import "./styles.scss"
-import { MARKET_SYMBOLS } from "@/utils/constants"
+import { MARKET_SYMBOLS, PERP_MM } from "@/utils/constants"
 import { usePerpStore } from "@/store/PerpStore"
 import Image from "next/image"
+import { useFetchMarketData } from "@/hooks/useFetchMarketData"
+import { useShallow } from "zustand/react/shallow"
 
 // interface TradingHeaderProps {
 //   symbol?: string
@@ -47,8 +49,20 @@ export const TradingHeader = ({
   const [showDropDown, setShowDropDown] = useState<boolean>(false);
   const [selectedMarket, setSelectedMarket] = useState<Market>(markets[1]);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const {
+    maintenanceMargin
+  }=usePerpStore(useShallow((state)=>({
+    maintenanceMargin:state.maintenanceMargin
+  })))
   const isPositive = priceChange >= 0;
 
+  const {
+    marketData,
+    error,
+    isLoading
+  }=useFetchMarketData();
+
+  console.log("The fetched market data is", marketData);
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
@@ -65,6 +79,11 @@ export const TradingHeader = ({
   const handleSelect = (market: Market) => {
     setSelectedMarket(market);
     usePerpStore.getState().setSelectedPerp(market.symbol);
+    if(market.symbol.toLowerCase().includes("btc")){
+      usePerpStore.getState().setMaintenanceMargin(PERP_MM.BTC)
+    }else{
+      usePerpStore.getState().setMaintenanceMargin(PERP_MM.ETH)
+    }
     setShowDropDown(false);
   };
 
@@ -101,7 +120,7 @@ export const TradingHeader = ({
         </div>
 
         <div className="priceInfo">
-          <div className="currentPrice">${currentPrice.toLocaleString()}</div>
+          <div className="currentPrice">${isLoading ? "0.00" : marketData.currentPrice.toLocaleString()}</div>
           <div className={`priceChange ${isPositive ? "positive" : "negative"}`}>
             {isPositive ? "+" : ""}
             {priceChangePercent}%
@@ -112,19 +131,19 @@ export const TradingHeader = ({
       <div className="statsSectionTrading">
         <div className="statItem">
           <span className="statLabel">24H High</span>
-          <span className="statValue">${high24h.toLocaleString()}</span>
+          <span className="statValue">${isLoading ? "0.00" : marketData.price24hHigh.toLocaleString()}</span>
         </div>
         <div className="statItem">
           <span className="statLabel">24H Low</span>
-          <span className="statValue">${low24h.toLocaleString()}</span>
+          <span className="statValue">${isLoading ? "0.00" : marketData.price24hLow.toLocaleString()}</span>
         </div>
-        <div className="statItem">
+        {/* <div className="statItem">
           <span className="statLabel">1H Funding</span>
           <span className="statValue funding">{funding1h.toFixed(4)}%</span>
-        </div>
+        </div> */}
         <div className="statItem">
           <span className="statLabel">Req. Maintenance</span>
-          <span className="statValue">{reqMaintenance.toFixed(1)}%</span>
+          <span className="statValue">{isLoading ? "0.00" : maintenanceMargin.toFixed(1)}%</span>
         </div>
       </div>
     </div>

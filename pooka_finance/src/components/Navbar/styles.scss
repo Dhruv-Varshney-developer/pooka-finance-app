@@ -2,10 +2,11 @@
   top: 0;
   left: 0;
   right: 0;
-  background: rgba(26, 26, 26, 0.95);
+  background: #0a0a0a;
   backdrop-filter: blur(12px);
   border-bottom: 1px solid #2a2a2a;
-  height: 64px;
+  padding-inline: 60px;
+  padding-block: 8px;
   font-family: var(--font-manrope), sans-serif;
   font-weight:bolder;
 }
@@ -15,8 +16,7 @@
   align-items: center;
   justify-content: space-between;
   height: 100%;
-  padding: 0 2rem;
-  max-width: 1920px;
+  padding: 0;
   margin: 0 auto;
 }
 
@@ -69,33 +69,31 @@
 }
 
 .nav-link {
-  background: none;
-  border: none;
-  color: #888888;
-  text-decoration: none;
-  font-weight: 500;
-  font-size: 14px;
-  transition: all 0.3s ease;
-  padding: 0.5rem 0;
   position: relative;
   cursor: pointer;
+  background-color: transparent;
+  text-align: center;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  border: 0;
+  line-height: 175%;
+  letter-spacing: 0.6px;
+  display: flex;
+  gap: 5px;
+  align-items: center;
+  transition: 0.2s linear;
+  height: 100%;
+  padding: 15px 0px;
+  color: #787878;
 }
 
 .nav-link:hover,
 .nav-link.active {
   color: #7bf179;
+  text-decoration: none;
 }
 
-.nav-link.active::after {
-  content: "";
-  position: absolute;
-  bottom: -1px;
-  left: 0;
-  right: 0;
-  height: 2px;
-  background: #7bf179;
-  border-radius: 1px;
-}
 
 .navbar-actions {
   display: flex;
@@ -120,10 +118,6 @@
   transition: all 0.2s ease;
 }
 
-.network-select:focus {
-  outline: none;
-  border-color: #7bf179;
-}
 
 .network-select:hover {
   border-color: #7bf179;
@@ -165,40 +159,40 @@
 }
 
 /* Mobile responsive */
-@media (max-width: 768px) {
-  .navbar-content {
-    padding: 0 1rem;
-  }
+// @media (max-width: 768px) {
+//   .navbar-content {
+//     padding: 0 1rem;
+//   }
 
-  .navbar-nav {
-    display: none;
-  }
+//   .navbar-nav {
+//     display: none;
+//   }
 
-  .logo-text {
-    display: none;
-  }
+//   .logo-text {
+//     display: none;
+//   }
 
-  .navbar-actions {
-    gap: 0.5rem;
-  }
+//   .navbar-actions {
+//     gap: 0.5rem;
+//   }
 
-  .wallet-button {
-    padding: 0.5rem 1rem;
-    font-size: 12px;
-  }
+//   .wallet-button {
+//     padding: 0.5rem 1rem;
+//     font-size: 12px;
+//   }
 
-  .network-select {
-    padding: 0.5rem;
-    font-size: 12px;
-  }
-}
+//   .network-select {
+//     padding: 0.5rem;
+//     font-size: 12px;
+//   }
+// }
 
-@media (max-width: 480px) {
-  .network-selector {
-    display: none;
-  }
+// @media (max-width: 480px) {
+//   .network-selector {
+//     display: none;
+//   }
 
-  .wallet-text {
-    display: none;
-  }
-}
+//   .wallet-text {
+//     display: none;
+//   }
+// }
