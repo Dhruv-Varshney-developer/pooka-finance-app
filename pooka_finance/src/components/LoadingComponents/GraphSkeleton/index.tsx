@@ -9,12 +9,9 @@ interface TradingChartSkeletonProps {
 }
 
 export const TradingChartSkeleton: React.FC<TradingChartSkeletonProps> = ({
-  width = '100%',
-  height = '400px',
   showControls = true,
   showPriceLabels = true
 }) => {
-  // Generate random path for the chart line
   const generateChartPath = () => {
     const points = [];
     const numPoints = 50;
@@ -44,7 +41,6 @@ export const TradingChartSkeleton: React.FC<TradingChartSkeletonProps> = ({
       
       candlesticks.push(
         <g key={i} className="chartSkeleton__candlestick">
-          {/* Wick */}
           <line
             x1={x + candleWidth/2}
             y1={50}
@@ -52,7 +48,6 @@ export const TradingChartSkeleton: React.FC<TradingChartSkeletonProps> = ({
             y2={50 + wickHeight}
             className="chartSkeleton__wick"
           />
-          {/* Body */}
           <rect
             x={x}
             y={50 + (wickHeight - baseHeight)/2}
@@ -68,7 +63,7 @@ export const TradingChartSkeleton: React.FC<TradingChartSkeletonProps> = ({
   };
 
   return (
-    <div className="chartSkeleton" style={{ width, height }}>
+    <div className="chartSkeleton" >
       {showControls && (
         <div className="chartSkeleton__header">
           <div className="chartSkeleton__headerLeft">
@@ -98,7 +93,6 @@ export const TradingChartSkeleton: React.FC<TradingChartSkeletonProps> = ({
             viewBox="0 0 800 240"
             preserveAspectRatio="none"
           >
-            {/* Grid lines */}
             <defs>
               <pattern id="grid" width="40" height="24" patternUnits="userSpaceOnUse">
                 <path d="M 40 0 L 0 0 0 24" fill="none" stroke="#2a2a2a" strokeWidth="0.5"/>
@@ -106,7 +100,6 @@ export const TradingChartSkeleton: React.FC<TradingChartSkeletonProps> = ({
             </defs>
             <rect width="100%" height="100%" fill="url(#grid)" />
             
-            {/* Horizontal grid lines */}
             {[...Array(6)].map((_, i) => (
               <line
                 key={i}
@@ -117,20 +110,13 @@ export const TradingChartSkeleton: React.FC<TradingChartSkeletonProps> = ({
                 className="chartSkeleton__gridLine"
               />
             ))}
-            
-            {/* Chart content */}
             <g className="chartSkeleton__chartContent">
-              {/* Candlesticks */}
               {generateCandlesticks()}
-              
-              {/* Moving average line */}
               <path
                 d={generateChartPath()}
                 className="chartSkeleton__chartLine"
                 fill="none"
               />
-              
-              {/* Volume bars at bottom */}
               {[...Array(25)].map((_, i) => (
                 <rect
                   key={i}
@@ -143,19 +129,6 @@ export const TradingChartSkeleton: React.FC<TradingChartSkeletonProps> = ({
               ))}
             </g>
           </svg>
-          
-          {/* Crosshair simulation */}
-          <div className="chartSkeleton__crosshair">
-            <div className="chartSkeleton__crosshairVertical"></div>
-            <div className="chartSkeleton__crosshairHorizontal"></div>
-          </div>
-        </div>
-        
-        {/* Time labels */}
-        <div className="chartSkeleton__timeLabels">
-          {[...Array(6)].map((_, i) => (
-            <div key={i} className="chartSkeleton__timeLabel"></div>
-          ))}
         </div>
       </div>
       

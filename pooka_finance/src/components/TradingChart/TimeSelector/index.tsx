@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './styles.scss';
+import { usePerpStore } from '@/store/PerpStore';
 
 interface TimeFrame {
   label: string;
@@ -9,21 +10,19 @@ interface TimeFrame {
 const TimeSelector: React.FC = () => {
   const [selectedTimeframe, setSelectedTimeframe] = useState<string>('1D'); 
   const timeframes: TimeFrame[] = [
-    { label: '1m', value: '1m' },
     { label: '5m', value: '5m' },
-    { label: '15m', value: '15m' },
     { label: '30m', value: '30m' },
     { label: '1H', value: '1H' },
     { label: '1D', value: '1D' },
     { label: '3D', value: '3D' },
-    { label: '1W', value: '1W' },
-    { label: '1M', value: '1M' },
-    { label: '3M', value: '3M' },
+    { label: '7D', value: '1W' },
+    { label: '30D', value: '1M' },
+    { label: '90D', value: '3M' },
   ];
 
   const handleTimeframeChange = (timeframe: string) => {
     setSelectedTimeframe(timeframe);
-    // Here you would typically call a function to update the chart
+    usePerpStore.getState().setTimeFrame(timeframe);
     console.log(`Selected timeframe: ${timeframe}`);
   };
 

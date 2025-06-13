@@ -98,7 +98,7 @@ export const TradingChart = () => {
 
   return (
     loading ? (
-      <TradingChartSkeleton />
+        <TradingChartSkeleton />  
     ) : (
       <div className="candlestickChartWrapper">
         <TimeSelector/>

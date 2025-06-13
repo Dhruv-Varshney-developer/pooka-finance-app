@@ -11,7 +11,15 @@
   align-items: center;
   justify-content: flex-start;
   gap: 24px;
-  margin-bottom: 16px;
+
+  @include xl{
+    width: 70%;
+    margin-bottom: 10px;
+  }
+
+  @include xxl{
+    width: 50%;
+  }
 }
 
 .priceSection {
@@ -157,6 +165,11 @@
   @include md {
     gap: 25px;
     justify-content: flex-start;
+  }
+
+  @include xl{
+    gap: 15px;
+    justify-content: flex-end;
   }
 
   .statItem {
