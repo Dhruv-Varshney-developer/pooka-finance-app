@@ -6,3 +6,7 @@ export interface OHLC_DATA{
     time: number,
   }
 
+export interface TimeFrame {
+  label: string;
+  value:"minute" | "day" | "month" | "week" | "hour" | "quarter";
+}
