@@ -1,29 +1,30 @@
-import React, { useState } from 'react';
+import React from 'react';
 import './styles.scss';
 import { usePerpStore } from '@/store/PerpStore';
+import { TimeFrame } from '@/store/types/types';
+import { useShallow } from 'zustand/react/shallow';
 
-interface TimeFrame {
-  label: string;
-  value: string;
-}
 
 const TimeSelector: React.FC = () => {
-  const [selectedTimeframe, setSelectedTimeframe] = useState<string>('1D'); 
+  const {
+    selectedTimeframe
+  }=usePerpStore(useShallow((state)=>({
+    selectedTimeframe: state.timeframe
+  })))
   const timeframes: TimeFrame[] = [
-    { label: '5m', value: '5m' },
-    { label: '30m', value: '30m' },
-    { label: '1H', value: '1H' },
-    { label: '1D', value: '1D' },
-    { label: '3D', value: '3D' },
-    { label: '7D', value: '1W' },
-    { label: '30D', value: '1M' },
-    { label: '90D', value: '3M' },
+    { label: '5m', value: 'minute' },
+    { label: '30m', value: 'minute' },
+    { label: '1H', value: 'hour' },
+    { label: '1D', value: 'day' },
+    { label: '3D', value: 'day' },
+    { label: '7D', value: 'week' },
+    { label: '30D', value: 'month' },
+    { label: '90D', value: 'quarter' },
   ];
 
-  const handleTimeframeChange = (timeframe: string) => {
-    setSelectedTimeframe(timeframe);
+  const handleTimeframeChange = (timeframe: TimeFrame) => {
     usePerpStore.getState().setTimeFrame(timeframe);
-    console.log(`Selected timeframe: ${timeframe}`);
+    console.log(`Selected timeframe: ${timeframe.value} ${timeframe.label}`);
   };
 
   return (
@@ -31,17 +32,17 @@ const TimeSelector: React.FC = () => {
       <div className="time-selector__header">
         <h3 className="time-selector__title">Timeframe</h3>
         <div className="time-selector__current">
-          Current: <span className="time-selector__current-value">{selectedTimeframe}</span>
+          Current: <span className="time-selector__current-value">{selectedTimeframe.label}</span>
         </div>
       </div>
       
       <div className="time-selector__container">
             {timeframes.map((timeframe) => (
               <button
-                key={timeframe.value}
-                onClick={() => handleTimeframeChange(timeframe.value)}
+                key={timeframe.label}
+                onClick={() => handleTimeframeChange(timeframe)}
                 className={`time-selector__timeframe ${
-                  selectedTimeframe === timeframe.value 
+                  selectedTimeframe.label === timeframe.label
                     ? 'time-selector__timeframe--active' 
                     : ''
                 }`}

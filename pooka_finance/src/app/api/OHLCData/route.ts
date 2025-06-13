@@ -22,6 +22,7 @@ export async function GET(request:NextRequest) {
     try{
       const { searchParams } = new URL(request.url);
       const perp = searchParams.get("perp");
+      const timeFrame = searchParams.get("timeFrame") as "minute" | "day" | "month" | "week" | "hour" | "quarter";
      console.log("THe requested data",perp);
      if(perp===undefined || perp==="" || perp===null) {
       return NextResponse.json(
@@ -36,9 +37,9 @@ export async function GET(request:NextRequest) {
      console.log("The Dat is",DATE_NOW, DATE_TO)
      const API_KEY=process.env.API_KEY;
      const CURRENCY_TICKER:string=perp.toString().replace("/","");
-     const PARTS:"day" | "month" | "week" | "hour"="day";
+     const PARTS:"minute" | "day" | "month" | "week" | "hour" | "quarter"= timeFrame !==null ? timeFrame : "day";
      console.log("The api key is",API_KEY)
-     const URL_POLYGON=`${BASE_URL}/X:${CURRENCY_TICKER}/range/1/${PARTS}/${DATE_TO}/${DATE_NOW}?adjusted=true&sort=asc&apiKey=${API_KEY}`;
+     const URL_POLYGON=`${BASE_URL}/X:${CURRENCY_TICKER}/range/1/${PARTS}/${DATE_TO}/${DATE_NOW}?adjusted=true&limit=1000&sort=asc&apiKey=${API_KEY}`;
      console.log(URL_POLYGON)
      const result=await axios.get(URL_POLYGON)
 

@@ -19,9 +19,11 @@ export const TradingChart = () => {
 
   
   const {
-    selectedPerp
+    selectedPerp,
+    timeFrame
   }=usePerpStore(useShallow((state)=>({
-    selectedPerp:state.selectedPerp
+    selectedPerp:state.selectedPerp,
+    timeFrame : state.timeframe
   })))
 
  const myPriceFormatter = Intl.NumberFormat("US", {
@@ -52,7 +54,7 @@ export const TradingChart = () => {
     chartRef.current.priceScale('right').applyOptions({
       borderColor: '#71649C',
       autoScale : false,
-      barSpacing:20
+      barSpacing:50
   });
   
   chartRef.current.timeScale().applyOptions({
@@ -81,7 +83,8 @@ export const TradingChart = () => {
       try {
         const res = await axios.get("/api/OHLCData",{
           params:{
-            perp:selectedPerp
+            perp:selectedPerp,
+            timeFrame : timeFrame
           }
         });
         const data = await res.data;
@@ -93,7 +96,7 @@ export const TradingChart = () => {
       }
     };
     fetchOHLCData();
-  },[selectedPerp])
+  },[selectedPerp, timeFrame])
 
 
   return (
