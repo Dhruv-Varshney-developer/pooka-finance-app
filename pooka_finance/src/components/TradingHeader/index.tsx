@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
+// TODO: Implement 24h stats using useDataStreams hook
 "use client"
 
 import type React from "react"
@@ -7,6 +8,7 @@ import "./styles.scss"
 import { MARKET_SYMBOLS } from "@/utils/constants"
 import { usePerpStore } from "@/store/PerpStore"
 import Image from "next/image"
+import { useDataStreams } from '@/hooks/useDataStreams'
 
 // interface TradingHeaderProps {
 //   symbol?: string
@@ -44,6 +46,9 @@ export const TradingHeader = ({
   funding1h = 0.0028,
   reqMaintenance = 2.0,
 }) => {
+  const { ethPrice, btcPrice, isLoading } = useDataStreams()
+
+
   const [showDropDown, setShowDropDown] = useState<boolean>(false);
   const [selectedMarket, setSelectedMarket] = useState<Market>(markets[1]);
   const dropdownRef = useRef<HTMLDivElement>(null);
