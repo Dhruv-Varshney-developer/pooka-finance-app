@@ -4,7 +4,7 @@
   border: 1px solid #2a2a2a;
   padding: 15px;
   color: #ffffff;
-  font-family: var(--font-manrope), sans-serif;
+  font-family: "Manrope", sans-serif;
   max-width: 100%;
 }
 
@@ -289,16 +289,17 @@
 }
 
 .connectWalletButton {
-  background-color: #7bf179;
-  color: #000000;
+  background-color: #121212;
+  color: #F2f2f2;
   border: none;
   border-radius: 8px;
   padding: 14px 20px;
   font-size: 16px;
   font-weight: 600;
   cursor: pointer;
+  min-width: 200px;
+  border: 1px solid #313131;
   transition: background-color 0.2s ease;
-  margin-top: 8px;
 }
 
 .connectWalletButton:hover {
