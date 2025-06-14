@@ -1,5 +1,5 @@
-import React from 'react';
-import './styles.scss';
+import React from "react";
+import "./styles.scss";
 
 interface TradingChartSkeletonProps {
   width?: string;
@@ -10,21 +10,31 @@ interface TradingChartSkeletonProps {
 
 export const TradingChartSkeleton: React.FC<TradingChartSkeletonProps> = ({
   showControls = true,
-  showPriceLabels = true
+  showPriceLabels = true,
 }) => {
+  // Seeded random function for deterministic values
+  const seededRandom = (seed: number): number => {
+    const x = Math.sin(seed) * 10000;
+    return x - Math.floor(x);
+  };
+
   const generateChartPath = () => {
     const points = [];
     const numPoints = 50;
     const chartWidth = 800;
     const chartHeight = 200;
-    
+
     for (let i = 0; i < numPoints; i++) {
       const x = (i / (numPoints - 1)) * chartWidth;
-      const y = chartHeight/2 + Math.sin(i * 0.3) * 40 + Math.random() * 20 - 10;
+      const y =
+        chartHeight / 2 +
+        Math.sin(i * 0.3) * 40 +
+        seededRandom(i + 100) * 20 -
+        10;
       points.push(`${x},${y}`);
     }
-    
-    return `M ${points.join(' L ')}`;
+
+    return `M ${points.join(" L ")}`;
   };
 
   const generateCandlesticks = () => {
@@ -32,38 +42,42 @@ export const TradingChartSkeleton: React.FC<TradingChartSkeletonProps> = ({
     const numCandles = 25;
     const candleWidth = 12;
     const spacing = 32;
-    
+
     for (let i = 0; i < numCandles; i++) {
       const x = i * spacing + 20;
-      const baseHeight = 120 + Math.random() * 60;
-      const wickHeight = baseHeight + Math.random() * 40;
-      const isGreen = Math.random() > 0.5;
-      
+      const baseHeight = 120 + seededRandom(i + 200) * 60;
+      const wickHeight = baseHeight + seededRandom(i + 300) * 40;
+      const isGreen = seededRandom(i + 400) > 0.5;
+
       candlesticks.push(
         <g key={i} className="chartSkeleton__candlestick">
           <line
-            x1={x + candleWidth/2}
+            x1={x + candleWidth / 2}
             y1={50}
-            x2={x + candleWidth/2}
+            x2={x + candleWidth / 2}
             y2={50 + wickHeight}
             className="chartSkeleton__wick"
           />
           <rect
             x={x}
-            y={50 + (wickHeight - baseHeight)/2}
+            y={50 + (wickHeight - baseHeight) / 2}
             width={candleWidth}
             height={baseHeight}
-            className={`chartSkeleton__candleBody ${isGreen ? 'chartSkeleton__candleBody--green' : 'chartSkeleton__candleBody--red'}`}
+            className={`chartSkeleton__candleBody ${
+              isGreen
+                ? "chartSkeleton__candleBody--green"
+                : "chartSkeleton__candleBody--red"
+            }`}
           />
         </g>
       );
     }
-    
+
     return candlesticks;
   };
 
   return (
-    <div className="chartSkeleton" >
+    <div className="chartSkeleton">
       {showControls && (
         <div className="chartSkeleton__header">
           <div className="chartSkeleton__headerLeft">
@@ -77,7 +91,7 @@ export const TradingChartSkeleton: React.FC<TradingChartSkeletonProps> = ({
           </div>
         </div>
       )}
-      
+
       <div className="chartSkeleton__chartArea">
         {showPriceLabels && (
           <div className="chartSkeleton__priceLabels">
@@ -86,20 +100,30 @@ export const TradingChartSkeleton: React.FC<TradingChartSkeletonProps> = ({
             ))}
           </div>
         )}
-        
+
         <div className="chartSkeleton__chartContainer">
-          <svg 
-            className="chartSkeleton__svg" 
+          <svg
+            className="chartSkeleton__svg"
             viewBox="0 0 800 240"
             preserveAspectRatio="none"
           >
             <defs>
-              <pattern id="grid" width="40" height="24" patternUnits="userSpaceOnUse">
-                <path d="M 40 0 L 0 0 0 24" fill="none" stroke="#2a2a2a" strokeWidth="0.5"/>
+              <pattern
+                id="grid"
+                width="40"
+                height="24"
+                patternUnits="userSpaceOnUse"
+              >
+                <path
+                  d="M 40 0 L 0 0 0 24"
+                  fill="none"
+                  stroke="#2a2a2a"
+                  strokeWidth="0.5"
+                />
               </pattern>
             </defs>
             <rect width="100%" height="100%" fill="url(#grid)" />
-            
+
             {[...Array(6)].map((_, i) => (
               <line
                 key={i}
@@ -123,7 +147,7 @@ export const TradingChartSkeleton: React.FC<TradingChartSkeletonProps> = ({
                   x={i * 32 + 18}
                   y={200}
                   width={16}
-                  height={Math.random() * 30 + 5}
+                  height={seededRandom(i + 500) * 30 + 5}
                   className="chartSkeleton__volumeBar"
                 />
               ))}
@@ -131,7 +155,7 @@ export const TradingChartSkeleton: React.FC<TradingChartSkeletonProps> = ({
           </svg>
         </div>
       </div>
-      
+
       {showControls && (
         <div className="chartSkeleton__footer">
           <div className="chartSkeleton__footerLeft">
